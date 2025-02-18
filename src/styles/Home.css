@@ -1,0 +1,16 @@
+#title {
+  color: #65e52c;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 15px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  min-width: 100vw;
+  min-height: 100vh;
+}

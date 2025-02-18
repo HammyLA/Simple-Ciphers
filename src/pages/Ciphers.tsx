@@ -1,0 +1,76 @@
+import React from "react";
+import "../styles/Ciphers.css";
+import { Link } from "react-router-dom";
+import CipherList from "../components/Cipherlist";
+
+function Ciphers() {
+  const classicCiphers: any[] = CipherList.find(i => i.id === 0)?.cipher || [];
+  const streamCiphers: any[] = CipherList.find(i => i.id === 1)?.cipher || [];
+  const blockCiphers: any[] = CipherList.find(i => i.id === 2)?.cipher || [];
+
+  return (
+    <>
+      <div>
+        <h1 style={{ textAlign: "center" }}>Cipher Styles</h1>
+        <div
+          style={{
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <a style={{fontSize: "24px"}} href="#classic">Classical Ciphers</a>
+          <a style={{fontSize: "24px"}} href="#stream">Stream Ciphers</a>
+          <a style={{fontSize: "24px"}} href="#block">Block Ciphers</a>
+        </div>
+      </div>
+      <h2 id="classic" style={{ textAlign: "center", padding: "30px" }}>
+        Classical Ciphers
+      </h2>
+      <div className="ciphersection">
+        {classicCiphers.map((cipher) => {
+          return (
+            <Link to="/crypto">
+              <div>
+                <h3>{cipher.name}</h3>
+                <p>{cipher.description}</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+      <h2 id="stream" style={{ textAlign: "center", padding: "30px" }}>
+        Stream Ciphers
+      </h2>
+      <div className="ciphersection">
+        {streamCiphers.map((cipher) => {
+          return (
+            <Link to="/crypto">
+              <div>
+                <h3>{cipher.name}</h3>
+                <p>{cipher.description}</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+      <h2 id="block" style={{ textAlign: "center", padding: "30px" }}>
+        Block Ciphers
+      </h2>
+      <div className="ciphersection">
+        {blockCiphers.map((cipher) => {
+          return (
+            <Link to="/crypto">
+              <div>
+                <h3>{cipher.name}</h3>
+                <p>{cipher.description}</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+export default Ciphers;

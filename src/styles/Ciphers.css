@@ -1,0 +1,30 @@
+
+
+a {
+    text-decoration: none;
+    color: aliceblue;
+    font-size: 20px;
+}
+
+.ciphersection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ciphersection div {
+    width: 300px;
+    height: 300px;
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 0px 10px;
+    margin: 20px;
+    text-align: center;
+}
+
+.ciphersection h3 {
+    text-decoration: underline;
+    text-underline-offset: 15px;
+    text-decoration-thickness: 0.5px;
+}
