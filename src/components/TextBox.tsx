@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/InOut.css'
+import '../styles/CipherComponent.css'
 
 interface TextBoxProps {
   type: "input" | "output";
@@ -20,7 +21,9 @@ const TextBox: React.FC<TextBoxProps> = ({ type, text, setText }) => {
           maxLength={max}
         />
       ) : (
-        <textarea readOnly value={text || ''} />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <textarea readOnly value={text || ''} />
+        </div>
       )}
       <p>{type === "input" ? `${text.length} / ${max}` : ""}</p>
     </div>

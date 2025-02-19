@@ -2,9 +2,13 @@ import React, { JSX, useEffect, useState } from 'react'
 import TextBox from '../components/TextBox'
 import { useLocation } from 'react-router-dom';
 import Substitution from '../components/ciphercomps/Substitution';
+import Caesar from '../components/ciphercomps/Caesar';
+import OneTime from '../components/ciphercomps/OneTime';
 
 const cipherComponents: { [key: string]: ({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void; }) => JSX.Element; } = {
   'Substitution Cipher': Substitution,
+  'Caesar Cipher': Caesar,
+  'One-Time Pad': OneTime,
 }
 
 function Crypto() {

@@ -1,22 +1,31 @@
 import React, { useState } from 'react'
 import { generateKey, subCipherDecrypt, subCipherEncrypt } from '../../ciphers/SubCipherImp'
 import '../../styles/CipherComponent.css'
-import { copyToClip } from '../Copy';
+import { copyToClip } from '../Helper';
+
 
 function Substitution({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
     const [key, setKey] = useState('')
 
     const handleEncrypt = () => {
         if (input) {
-            const encrypted = subCipherEncrypt(input, key)
-            onOutputSubmit(encrypted)
+            try {
+                const encrypted = subCipherEncrypt(input, key)
+                onOutputSubmit(encrypted)
+            } catch {
+                alert("Enter a 26 unique letter key")
+            }
         }
     }
 
     const handleDecrypt = () => {
         if (input) {
-            const decrypted = subCipherDecrypt(input, key)
-            onOutputSubmit(decrypted);
+            try {
+                const decrypted = subCipherDecrypt(input, key)
+                onOutputSubmit(decrypted);
+            } catch {
+                alert("Enter a 26 unique letter key")
+            }
         }
     }
 

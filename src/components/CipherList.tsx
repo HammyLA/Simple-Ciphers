@@ -39,12 +39,12 @@ const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
     name: "stream",
     cipher: [
       {
-        id: 0,
+        id: 4,
         name: "A5/1",
         description: "3 Registers and a key create a keystream to combine with the plaintext",
       },
       {
-        id: 1,
+        id: 5,
         name: "RC4",
         description: "256 distinct bytes, a key, and constant permutations to generate a keystream to combine with plaintext",
       },
@@ -55,17 +55,17 @@ const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
     name: "block",
     cipher: [
       {
-        id: 0,
+        id: 6,
         name: "DES",
         description: "A Feistel Cipher, using a 56-bit key on 64-bit blocks of text to encrypt block by block",
       },
       {
-        id: 1,
+        id: 7,
         name: "AES",
         description: "Encrypting 128-bit plaintext blocks using keys of varying sizes (128, 192, 256 bits)",
       },
       {
-        id: 1,
+        id: 8,
         name: "TEA",
         description: "A simpler block cipher using a 128-bit key and a Feistel structure going through substantially higher rounds of encryption",
       },

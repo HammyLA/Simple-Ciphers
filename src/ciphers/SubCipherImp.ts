@@ -1,67 +1,73 @@
+import { checkAlphabet } from "../components/Helper";
+
 export function subCipherEncrypt(message: string, key: string) {
-  var arr: number[] = Array<number>(26);
-  if (key.length > 26) {
-    throw new Error("Key should be exactly 26 characters")
+  checkAlphabet(message)
+  var upperKey = key.toUpperCase();
+  var alphaset: Set<string> = new Set<string>();
+  if (key.length != 26) {
+    throw new Error("Key should be exactly 26 characters");
   }
 
   for (var i = 0; i < key.length; i++) {
-    arr[key.toUpperCase().charCodeAt(i) - 'A'.charCodeAt(0)]++
-    if (arr[key.toUpperCase().charCodeAt(i) - 'A'.charCodeAt(0)] > 1) {
-        throw new Error("Key should have unique characters");
+    if (alphaset.has(upperKey.charAt(i))) {
+      throw new Error("Key should have unique letters");
     }
+    alphaset.add(upperKey.charAt(i));
   }
 
   var temp = message.toUpperCase();
   var ret = "";
   for (var i = 0; i < message.length; i++) {
-    if (temp.charAt(i) === ' ') {
-      ret += ' ';
+    if (temp.charAt(i) === " ") {
+      ret += " ";
       continue;
     }
-    var keyIndex = temp.charCodeAt(i) - 'A'.charCodeAt(0);
-    ret += key.charAt(keyIndex)
+    var keyIndex = temp.charCodeAt(i) - "A".charCodeAt(0);
+    ret += upperKey.charAt(keyIndex);
   }
 
   return ret;
 }
 
 export function subCipherDecrypt(ciphertext: string, key: string) {
-  var arr: number[] = Array<number>(26);
-  if (key.length > 26) {
-    throw new Error("Key should be exactly 26 characters")
+  checkAlphabet(ciphertext)
+  var upperKey = key.toUpperCase();
+  var alphaset: Set<string> = new Set<string>();
+  if (key.length != 26) {
+    throw new Error("Key should be exactly 26 characters");
   }
 
   for (var i = 0; i < key.length; i++) {
-    arr[key.toUpperCase().charCodeAt(i) - 'A'.charCodeAt(0)]++
-    if (arr[key.toUpperCase().charCodeAt(i) - 'A'.charCodeAt(0)] > 1) {
-        throw new Error("Key should have unique characters");
+    if (alphaset.has(upperKey.charAt(i))) {
+      throw new Error("Key should have unique letters");
     }
+    alphaset.add(upperKey.charAt(i));
   }
 
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var temp = ciphertext.toUpperCase();
   var ret = "";
   for (var i = 0; i < ciphertext.length; i++) {
-    if (temp.charAt(i) === ' ') {
-      ret += " "
+    if (temp.charAt(i) === " ") {
+      ret += " ";
       continue;
     }
-    ret += alphabet.charAt(key.indexOf(temp.charAt(i)))
+    ret += alphabet.charAt(upperKey.indexOf(temp.charAt(i)));
   }
 
   return ret;
 }
 
 export function generateKey() {
-    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    let charArray = alphabet.split('')
-    for (var i = 0; i < 1028; i++) {
-        var pos1 = Math.floor(Math.random() * 26)
-        var pos2 = Math.floor(Math.random() * 26)
-        var temp = charArray[pos1]
-        charArray[pos1] = charArray[pos2]
-        charArray[pos2] = temp
-    }
+  var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let charArray = alphabet.split("");
+  for (var i = 0; i < 1028; i++) {
+    var pos1 = Math.floor(Math.random() * 26);
+    var pos2 = Math.floor(Math.random() * 26);
+    var temp = charArray[pos1];
+    charArray[pos1] = charArray[pos2];
+    charArray[pos2] = temp;
+  }
 
-    return charArray.join('')
+  return charArray.join("");
 }
