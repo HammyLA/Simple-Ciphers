@@ -1,13 +1,30 @@
-import React from 'react'
-import InputBox from '../components/InputBox'
-import OutputBox from '../components/OutputBox'
+import React, { JSX, useEffect, useState } from 'react'
+import TextBox from '../components/TextBox'
+import { useLocation } from 'react-router-dom';
+import Substitution from '../components/ciphercomps/Substitution';
+
+const cipherComponents: { [key: string]: ({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void; }) => JSX.Element; } = {
+  'Substitution Cipher': Substitution,
+}
 
 function Crypto() {
+  const location = useLocation();
+  const cipher = location.state?.cipher;
+  const [output, setOutput] = useState('');
+  const [input, setInput] = useState('')
+
+  const CipherComponent = cipherComponents[cipher.name]
+  if (CipherComponent == undefined) {
+    console.log('hi')
+  }
+
+
   return (
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      <InputBox />
-      <button style={{alignSelf: "center"}}>Encrypt</button>
-      <OutputBox />
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <h1>{cipher.name}</h1>
+      <TextBox type="input" text={input} setText={setInput} />
+      {CipherComponent === undefined ? <div>Sorry, not done yet</div>: <CipherComponent input={input} onOutputSubmit={setOutput} />}
+      <TextBox type="output" text={output} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Ciphers.css";
 import { Link } from "react-router-dom";
-import CipherList from "../components/Cipherlist";
+import CipherList from "../components/CipherList";
 
 function Ciphers() {
   const classicCiphers: any[] = CipherList.find(i => i.id === 0)?.cipher || [];
@@ -19,9 +19,9 @@ function Ciphers() {
             flexDirection: "column",
           }}
         >
-          <a style={{fontSize: "24px"}} href="#classic">Classical Ciphers</a>
-          <a style={{fontSize: "24px"}} href="#stream">Stream Ciphers</a>
-          <a style={{fontSize: "24px"}} href="#block">Block Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="#classic">Classical Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="#stream">Stream Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="#block">Block Ciphers</a>
         </div>
       </div>
       <h2 id="classic" style={{ textAlign: "center", padding: "30px" }}>
@@ -30,7 +30,7 @@ function Ciphers() {
       <div className="ciphersection">
         {classicCiphers.map((cipher) => {
           return (
-            <Link to="/crypto">
+            <Link to="/crypto" state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
@@ -45,7 +45,7 @@ function Ciphers() {
       <div className="ciphersection">
         {streamCiphers.map((cipher) => {
           return (
-            <Link to="/crypto">
+            <Link to="/crypto" state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
@@ -60,7 +60,7 @@ function Ciphers() {
       <div className="ciphersection">
         {blockCiphers.map((cipher) => {
           return (
-            <Link to="/crypto">
+            <Link to="/crypto" state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>

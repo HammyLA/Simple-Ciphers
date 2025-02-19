@@ -1,4 +1,13 @@
-const CipherList: { id: number, name: string; cipher: any[] }[] = [
+import { ReactNode } from "react";
+import Substitution from "./ciphercomps/Substitution";
+
+interface Cipher {
+  id: number;
+  name: string;
+  description: string;
+}
+
+const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
   {
     id: 0,
     name: "classic",
