@@ -58,13 +58,11 @@ function RC4Init(key: string) {
         tableNums[j] = temp;
     }
 
-    return {tableNums, tableKey}
+    return tableNums
 }
 
 function RC4Keystream(key: string, bytestream: number) {
-    var set = RC4Init(key)
-    var S = set.tableNums;
-    var K = set.tableKey;
+    var S = RC4Init(key)
     var i = 0;
     var j = 0;
     var keystream = new Uint8Array(bytestream)
