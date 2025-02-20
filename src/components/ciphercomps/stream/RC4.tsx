@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
-import { generateKey, subCipherDecrypt, subCipherEncrypt } from '../../ciphers/SubCipherImp'
-import '../../styles/CipherComponent.css'
-import { copyToClip } from '../Helper';
+import { copyToClip, errorMessage } from '../../Helper'
+import { generateKey, RC4Decrypt, RC4Encrypt } from '../../../ciphers/stream/RC4Imp';
 
-
-function Substitution({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
+function RC4({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
     const [key, setKey] = useState('')
 
     const handleEncrypt = () => {
         if (input) {
             try {
-                const encrypted = subCipherEncrypt(input, key)
+                const encrypted = RC4Encrypt(input, key)
                 onOutputSubmit(encrypted)
-            } catch {
-                alert("Enter a 26 unique letter key")
+            } catch (error) {
+                alert(errorMessage(error))
             }
         }
     }
@@ -21,10 +19,10 @@ function Substitution({ input, onOutputSubmit }: { input: string | undefined; on
     const handleDecrypt = () => {
         if (input) {
             try {
-                const decrypted = subCipherDecrypt(input, key)
-                onOutputSubmit(decrypted);
-            } catch {
-                alert("Enter a 26 unique letter key")
+                const decrypted = RC4Decrypt(input, key)
+                onOutputSubmit(decrypted)
+            } catch (error) {
+                alert(errorMessage(error))
             }
         }
     }
@@ -46,5 +44,4 @@ function Substitution({ input, onOutputSubmit }: { input: string | undefined; on
     )
 }
 
-export default Substitution
-
+export default RC4

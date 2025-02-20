@@ -5,6 +5,7 @@ import Ciphers from "./pages/Ciphers";
 import About from "./pages/About";
 import Crypto from "./pages/Crypto";
 import { Routes, Route } from "react-router-dom";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/ciphers" element={<Ciphers />} />
         <Route path="/about" element={<About />} />
-        <Route path="/crypto" element={<Crypto />} />
+        <Route path="/cryptosystem/:name" element={<Crypto />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

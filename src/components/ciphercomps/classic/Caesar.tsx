@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { caesarDecrypt, caesarEncrypt } from '../../ciphers/CaesarImp';
+import { caesarDecrypt, caesarEncrypt } from '../../../ciphers/classic/CaesarImp';
+import { errorMessage } from '../../Helper';
 
 function Caesar({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
   const [shift, setShift] = useState(0)
@@ -9,8 +10,8 @@ function Caesar({ input, onOutputSubmit }: { input: string | undefined; onOutput
       try {
         const encrypted = caesarEncrypt(input, shift)
         onOutputSubmit(encrypted)
-      } catch {
-        alert("Please use letters only in your input")
+      } catch (error) {
+        alert(errorMessage(error))
       }
 
     }
@@ -21,8 +22,8 @@ function Caesar({ input, onOutputSubmit }: { input: string | undefined; onOutput
       try {
         const decrypted = caesarDecrypt(input, shift)
         onOutputSubmit(decrypted)
-      } catch {
-        alert("Please use letters only in your input")
+      } catch (error) {
+        alert(errorMessage(error))
       }
     }
   }
@@ -31,7 +32,7 @@ function Caesar({ input, onOutputSubmit }: { input: string | undefined; onOutput
     <div>
       <div className='ciphercomp'>
         <div>
-          <button onClick={() => setShift(shift - 1)}>-</button>
+          <button disabled={shift <= 0} onClick={() => setShift(shift - 1)}>-</button>
           <input type="number" placeholder='SHIFT' value={shift} onChange={(e) => setShift(e.target.valueAsNumber)}></input>
           <button onClick={() => setShift(shift + 1)}>+</button>
         </div>

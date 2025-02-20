@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { generateKey, OTPdecrypt, OTPencrypt } from '../../ciphers/OTPImp';
-import { copyToClip } from '../Helper';
+import { generateKey, OTPdecrypt, OTPencrypt } from '../../../ciphers/classic/OTPImp';
+import { copyToClip } from '../../Helper';
 
 function OneTime({input, onOutputSubmit}: {input: string | undefined; onOutputSubmit: (output: string) => void }) {
   const [key, setKey] = useState('')

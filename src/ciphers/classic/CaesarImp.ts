@@ -1,7 +1,11 @@
-import { checkAlphabet } from "../components/Helper";
+import { checkAlphabet } from "../../components/Helper";
 
 export function caesarEncrypt(message: string, shift: number) {
   checkAlphabet(message);
+  if (isNaN(shift) || shift < 0) {
+    throw new Error("Please use a positive shift!");
+  }
+
   var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var realshift = shift % 26;
   var encrypted = "";
@@ -20,12 +24,16 @@ export function caesarEncrypt(message: string, shift: number) {
   return encrypted;
 }
 
-export function caesarDecrypt(message: string, shift: number) {
-  checkAlphabet(message);
+export function caesarDecrypt(encrypted: string, shift: number) {
+  checkAlphabet(encrypted);
+  if (shift < 0) {
+    throw new Error("Please use a positive shift!");
+  }
+
   var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var realshift = shift % 26;
   var decrypted = "";
-  var temp = message.toUpperCase();
+  var temp = encrypted.toUpperCase();
 
   var charArray = alphabet.split("");
   for (var i = 0; i < temp.length; i++) {

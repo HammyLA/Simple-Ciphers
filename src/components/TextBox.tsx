@@ -9,7 +9,7 @@ interface TextBoxProps {
 }
 
 const TextBox: React.FC<TextBoxProps> = ({ type, text, setText }) => {
-  const max = 256;
+  const max = 1024;
 
   return (
     <div className='container'>

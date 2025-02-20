@@ -1,4 +1,4 @@
-import { checkAlphabet } from "../components/Helper";
+import { checkAlphabet } from "../../components/Helper";
 
 export function subCipherEncrypt(message: string, key: string) {
   checkAlphabet(message)
@@ -29,8 +29,8 @@ export function subCipherEncrypt(message: string, key: string) {
   return ret;
 }
 
-export function subCipherDecrypt(ciphertext: string, key: string) {
-  checkAlphabet(ciphertext)
+export function subCipherDecrypt(encrypted: string, key: string) {
+  checkAlphabet(encrypted)
   var upperKey = key.toUpperCase();
   var alphaset: Set<string> = new Set<string>();
   if (key.length != 26) {
@@ -45,9 +45,9 @@ export function subCipherDecrypt(ciphertext: string, key: string) {
   }
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var temp = ciphertext.toUpperCase();
+  var temp = encrypted.toUpperCase();
   var ret = "";
-  for (var i = 0; i < ciphertext.length; i++) {
+  for (var i = 0; i < encrypted.length; i++) {
     if (temp.charAt(i) === " ") {
       ret += " ";
       continue;

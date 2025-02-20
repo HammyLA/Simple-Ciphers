@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
-import Substitution from "./ciphercomps/Substitution";
+import Substitution from "./ciphercomps/classic/Substitution";
 
 interface Cipher {
   id: number;
   name: string;
   description: string;
+  path: string;
 }
 
 const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
@@ -16,21 +17,25 @@ const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
         id: 0,
         name: "Caesar Cipher",
         description: "Alphabet shifted based on a value",
+        path: "caesar"
       },
       {
         id: 1,
         name: "Substitution Cipher",
         description: "Letter assigned to another letter",
+        path: "substitution"
       },
       {
         id: 2,
         name: "One-Time Pad",
         description: "Plaintext combined with a random secret key",
+        path: "otp"
       },
       {
         id: 3,
         name: "Vigenere Cipher",
         description: "The shift of each letter is determined by the corresponding letter of the key",
+        path: "vigenere"
       },
     ],
   },
@@ -42,11 +47,13 @@ const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
         id: 4,
         name: "A5/1",
         description: "3 Registers and a key create a keystream to combine with the plaintext",
+        path: "a51"
       },
       {
         id: 5,
         name: "RC4",
         description: "256 distinct bytes, a key, and constant permutations to generate a keystream to combine with plaintext",
+        path: "rc4"
       },
     ],
   },
@@ -58,16 +65,19 @@ const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
         id: 6,
         name: "DES",
         description: "A Feistel Cipher, using a 56-bit key on 64-bit blocks of text to encrypt block by block",
+        path: "des"
       },
       {
         id: 7,
         name: "AES",
         description: "Encrypting 128-bit plaintext blocks using keys of varying sizes (128, 192, 256 bits)",
+        path: "aes"
       },
       {
         id: 8,
         name: "TEA",
         description: "A simpler block cipher using a 128-bit key and a Feistel structure going through substantially higher rounds of encryption",
+        path: "tea"
       },
     ],
   },
