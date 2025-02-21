@@ -8,6 +8,7 @@ import Vigenere from '../components/ciphercomps/classic/Vigenere';
 import PageNotFound from './PageNotFound';
 import A51 from '../components/ciphercomps/stream/A51';
 import RC4 from '../components/ciphercomps/stream/RC4';
+import DES from '../components/ciphercomps/block/DES';
 
 const cipherComponents: { [key: string]: ({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void; }) => JSX.Element; } = {
   'Substitution Cipher': Substitution,
@@ -16,6 +17,7 @@ const cipherComponents: { [key: string]: ({ input, onOutputSubmit }: { input: st
   'Vigenere Cipher': Vigenere,
   'A5/1': A51,
   'RC4': RC4,
+  'DES': DES,
 }
 
 function Crypto() {
