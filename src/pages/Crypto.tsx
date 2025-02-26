@@ -10,6 +10,7 @@ import A51 from '../components/ciphercomps/stream/A51';
 import RC4 from '../components/ciphercomps/stream/RC4';
 import DES from '../components/ciphercomps/block/DES';
 import AES from '../components/ciphercomps/block/AES';
+import TEA from '../components/ciphercomps/block/TEA';
 
 const cipherComponents: { [key: number]: ({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void; }) => JSX.Element; } = {
   0: Caesar,
@@ -20,6 +21,7 @@ const cipherComponents: { [key: number]: ({ input, onOutputSubmit }: { input: st
   5: RC4,
   6: DES,
   7: AES,
+  8: TEA,
 }
 
 function Crypto() {
