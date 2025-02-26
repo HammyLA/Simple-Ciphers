@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://HammyLA.github.io/Simple-Ciphers/",
+  "homepage": "https://hammyla.github.io/Simple-Ciphers/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
