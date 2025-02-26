@@ -18,9 +18,9 @@ function Ciphers() {
             flexDirection: "column",
           }}
         >
-          <a style={{ fontSize: "24px" }} href="#classic">Classical Ciphers</a>
-          <a style={{ fontSize: "24px" }} href="#stream">Stream Ciphers</a>
-          <a style={{ fontSize: "24px" }} href="#block">Block Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="/Simple-Ciphers/ciphers#classic">Classical Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="/Simple-Ciphers/ciphers#stream">Stream Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="/Simple-Ciphers/ciphers#block">Block Ciphers</a>
         </div>
       </div>
       <h2 id="classic" style={{ textAlign: "center", padding: "30px" }}>
