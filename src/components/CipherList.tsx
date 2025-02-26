@@ -69,8 +69,8 @@ const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
       },
       {
         id: 7,
-        name: "AES",
-        description: "Encrypting 128-bit plaintext blocks using keys of varying sizes (128, 192, 256 bits)",
+        name: "AES-128",
+        description: "Modern cipher encrypting 128-bit plaintext blocks using a key of 128 bits",
         path: "aes"
       },
       {

@@ -19,64 +19,11 @@ export function errorMessage(error: unknown) {
 }
 
 export function hex2bin(hex: string) {
-  hex = hex.toLowerCase();
-  var out = "";
-  for (var c of hex) {
-    switch (c) {
-      case "0":
-        out += "0000";
-        break;
-      case "1":
-        out += "0001";
-        break;
-      case "2":
-        out += "0010";
-        break;
-      case "3":
-        out += "0011";
-        break;
-      case "4":
-        out += "0100";
-        break;
-      case "5":
-        out += "0101";
-        break;
-      case "6":
-        out += "0110";
-        break;
-      case "7":
-        out += "0111";
-        break;
-      case "8":
-        out += "1000";
-        break;
-      case "9":
-        out += "1001";
-        break;
-      case "a":
-        out += "1010";
-        break;
-      case "b":
-        out += "1011";
-        break;
-      case "c":
-        out += "1100";
-        break;
-      case "d":
-        out += "1101";
-        break;
-      case "e":
-        out += "1110";
-        break;
-      case "f":
-        out += "1111";
-        break;
-      default:
-        return "";
-    }
+  var bin = "";
+  for (var i = 0; i < hex.length; i++) {
+    bin += parseInt(hex.charAt(i), 16).toString(2).padStart(4, "0");
   }
-
-  return out;
+  return bin;
 }
 
 export function bin2hex(binary: string): string {
@@ -87,4 +34,39 @@ export function bin2hex(binary: string): string {
     hex += hexValue;
   }
   return hex;
+}
+
+export function string2blocks(str: string, bytes: number) {
+  const encoder = new TextEncoder();
+  let byteArray = encoder.encode(str);
+  const paddingLength = bytes - (byteArray.length % bytes);
+  const byteList = Array.from(byteArray);
+
+  if (paddingLength !== bytes) {
+    for (let i = 0; i < paddingLength; i++) {
+      byteList.push(paddingLength);
+    }
+  }
+
+  byteArray = new Uint8Array(byteList);
+
+  if (byteArray.length % bytes != 0) {
+    throw new Error("Error: Byte Array not formatted properly");
+  }
+
+  return byteArray
+}
+
+export function hex2ByteArray(str: string): Uint8Array {
+  if (str.length % 2 !== 0) {
+    throw new Error("Hex string must have an even length");
+  }
+
+  let byteArray = new Uint8Array(str.length / 2);
+  
+  for (let i = 0; i < str.length; i += 2) {
+    byteArray[i / 2] = parseInt(str.slice(i, i + 2), 16);
+  }
+  
+  return byteArray;
 }

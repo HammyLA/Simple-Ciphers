@@ -9,15 +9,17 @@ import PageNotFound from './PageNotFound';
 import A51 from '../components/ciphercomps/stream/A51';
 import RC4 from '../components/ciphercomps/stream/RC4';
 import DES from '../components/ciphercomps/block/DES';
+import AES from '../components/ciphercomps/block/AES';
 
-const cipherComponents: { [key: string]: ({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void; }) => JSX.Element; } = {
-  'Substitution Cipher': Substitution,
-  'Caesar Cipher': Caesar,
-  'One-Time Pad': OneTime,
-  'Vigenere Cipher': Vigenere,
-  'A5/1': A51,
-  'RC4': RC4,
-  'DES': DES,
+const cipherComponents: { [key: number]: ({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void; }) => JSX.Element; } = {
+  0: Caesar,
+  1: Substitution,
+  2: OneTime,
+  3: Vigenere,
+  4: A51,
+  5: RC4,
+  6: DES,
+  7: AES,
 }
 
 function Crypto() {
@@ -33,7 +35,7 @@ function Crypto() {
 
   
 
-  const CipherComponent = cipherComponents[cipher.name]
+  const CipherComponent = cipherComponents[cipher.id]
   if (CipherComponent == undefined) {
     console.log('hi')
   }

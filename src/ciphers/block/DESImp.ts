@@ -1,4 +1,9 @@
-import { bin2hex, hex2bin, isHex } from "../../components/Helper";
+import {
+  bin2hex,
+  hex2bin,
+  isHex,
+  string2blocks,
+} from "../../components/Helper";
 
 // Credit to Ziaullah for these tables and implementation
 // https://ziaullahrajpoot.medium.com/data-encryption-standard-des-dc8610aafdb3
@@ -101,25 +106,14 @@ const ip_inverse_table = [
   49, 17, 57, 25,
 ];
 
-function string2blocks(str: string) {
-  const encoder = new TextEncoder();
-  let byteArray = encoder.encode(str);
-  const paddingLength = 8 - (byteArray.length % 8);
-  const byteList = Array.from(byteArray);
-
-  if (paddingLength !== 8) {
-    for (let i = 0; i < paddingLength; i++) {
-      byteList.push(paddingLength);
-    }
+export function DESEncrypt(message: string, key: string) {
+  isHex(key);
+  if (key.length != 16) {
+    throw new Error("Enter a 64-bit key (16-hex)");
   }
-
-  byteArray = new Uint8Array(byteList);
-
-  if (byteArray.length % 8 != 0 && byteArray[byteArray.length - 1] != 8) {
-    throw new Error("Error: Byte Array not formatted properly");
-  }
-
-  let blockArray: string[] = [];
+  key = hex2bin(key);
+  let byteArray = string2blocks(message, 8);
+  let blocks: string[] = [];
   for (let i = 0; i < byteArray.length; i += 8) {
     let block = byteArray.slice(i, i + 8);
 
@@ -127,20 +121,9 @@ function string2blocks(str: string) {
       .map((byte) => byte.toString(2).padStart(8, "0"))
       .join("");
 
-    blockArray.push(bitString);
+    blocks.push(bitString);
   }
 
-  // return block array with block strings of length 64
-  return blockArray;
-}
-
-export function DESEncrypt(message: string, key: string) {
-  isHex(key);
-  if (key.length != 16) {
-    throw new Error("Enter a 64-bit key (16-hex)");
-  }
-  key = hex2bin(key);
-  let blocks = string2blocks(message);
   let encryptedBlocks = [];
   for (var i = 0; i < blocks.length; i++) {
     encryptedBlocks.push(encrypt(blocks[i], key));
