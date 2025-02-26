@@ -12,6 +12,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
+        <Route path="/Simple-Ciphers" element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/ciphers" element={<Ciphers />} />
         <Route path="/about" element={<About />} />
