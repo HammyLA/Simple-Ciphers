@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { copyToClip, errorMessage } from '../../Helper';
 import { generateKey, TEADecrypt, TEAEncrypt } from '../../../ciphers/block/TEAImp';
 

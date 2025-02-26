@@ -1,6 +1,3 @@
-import { ReactNode } from "react";
-import Substitution from "./ciphercomps/classic/Substitution";
-
 interface Cipher {
   id: number;
   name: string;

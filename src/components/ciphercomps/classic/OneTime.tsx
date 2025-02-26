@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { generateKey, OTPdecrypt, OTPencrypt } from '../../../ciphers/classic/OTPImp';
 import { copyToClip } from '../../Helper';
 

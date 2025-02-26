@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { copyToClip, errorMessage } from '../../Helper'
 import { generateKey, RC4Decrypt, RC4Encrypt } from '../../../ciphers/stream/RC4Imp';
 

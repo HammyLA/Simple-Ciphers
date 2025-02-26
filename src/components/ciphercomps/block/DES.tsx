@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { copyToClip, errorMessage } from '../../Helper';
 import { DESDecrypt, DESEncrypt } from '../../../ciphers/block/DESImp';
 import { generateKey } from '../../../ciphers/block/DESImp';

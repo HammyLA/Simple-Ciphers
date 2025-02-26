@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { AESDecrypt, AESEncrypt, generateKey } from '../../../ciphers/block/AESImp';
 import { copyToClip, errorMessage } from '../../Helper';
 

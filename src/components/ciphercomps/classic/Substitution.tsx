@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { generateKey, subCipherDecrypt, subCipherEncrypt } from '../../../ciphers/classic/SubCipherImp'
 import '../../../styles/CipherComponent.css'
 import { copyToClip } from '../../Helper';

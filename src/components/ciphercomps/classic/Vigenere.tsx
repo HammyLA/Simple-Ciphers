@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { generateKey, vigenereDecrypt, vigenereEncrypt } from '../../../ciphers/classic/VigenereImp';
 import { copyToClip, errorMessage } from '../../Helper';
 

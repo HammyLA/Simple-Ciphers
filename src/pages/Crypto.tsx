@@ -1,4 +1,4 @@
-import React, { JSX, useEffect, useState } from 'react'
+import { JSX, useState } from 'react'
 import TextBox from '../components/TextBox'
 import { useLocation } from 'react-router-dom';
 import Substitution from '../components/ciphercomps/classic/Substitution';
