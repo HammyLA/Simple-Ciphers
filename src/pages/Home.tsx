@@ -8,7 +8,7 @@ function Home() {
     <>
       <div className="center">
         <h1 id="title"><TextScramble text="Simple Ciphers" /></h1>
-        <Link to="/ciphers">
+        <Link to="/Simple-Ciphers/ciphers">
           <button><TextScramble text="Get Started" speed={150}/></button>
         </Link>
       </div>

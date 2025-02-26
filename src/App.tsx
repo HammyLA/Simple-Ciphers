@@ -14,9 +14,9 @@ function App() {
       <Routes>
         <Route path="/Simple-Ciphers" element={<Home />} />
         <Route path="/" element={<Home />} />
-        <Route path="/ciphers" element={<Ciphers />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/cryptosystem/:name" element={<Crypto />} />
+        <Route path="/Simple-Ciphers/ciphers" element={<Ciphers />} />
+        <Route path="/Simple-Ciphers/about" element={<About />} />
+        <Route path="/Simple-Ciphers/cryptosystem/:name" element={<Crypto />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

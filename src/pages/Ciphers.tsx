@@ -29,7 +29,7 @@ function Ciphers() {
       <div className="ciphersection">
         {classicCiphers.map((cipher) => {
           return (
-            <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
+            <Link to={`/Simple-Ciphers/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
@@ -44,7 +44,7 @@ function Ciphers() {
       <div className="ciphersection">
         {streamCiphers.map((cipher) => {
           return (
-            <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
+            <Link to={`/Simple-Ciphers/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
@@ -59,7 +59,7 @@ function Ciphers() {
       <div className="ciphersection">
         {blockCiphers.map((cipher) => {
           return (
-            <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
+            <Link to={`/Simple-Ciphers/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
