@@ -1,6 +1,8 @@
 import "../styles/Ciphers.css";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link'
 import CipherList from "../components/CipherList";
+
 
 function Ciphers() {
   const classicCiphers: any[] = CipherList.find(i => i.id === 0)?.cipher || [];
@@ -18,9 +20,9 @@ function Ciphers() {
             flexDirection: "column",
           }}
         >
-          <a style={{ fontSize: "24px" }} href="/ciphers#classic">Classical Ciphers</a>
-          <a style={{ fontSize: "24px" }} href="/ciphers#stream">Stream Ciphers</a>
-          <a style={{ fontSize: "24px" }} href="/ciphers#block">Block Ciphers</a>
+          <HashLink style={{ fontSize: "24px" }} to="#classic">Classical Ciphers</HashLink>
+          <HashLink style={{ fontSize: "24px" }} to="#stream">Stream Ciphers</HashLink>
+          <HashLink style={{ fontSize: "24px" }} to="#block">Block Ciphers</HashLink>
         </div>
       </div>
       <h2 id="classic" style={{ textAlign: "center", padding: "30px" }}>
