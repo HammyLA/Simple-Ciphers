@@ -18,9 +18,9 @@ function Ciphers() {
             flexDirection: "column",
           }}
         >
-          <a style={{ fontSize: "24px" }} href="/Simple-Ciphers/ciphers#classic">Classical Ciphers</a>
-          <a style={{ fontSize: "24px" }} href="/Simple-Ciphers/ciphers#stream">Stream Ciphers</a>
-          <a style={{ fontSize: "24px" }} href="/Simple-Ciphers/ciphers#block">Block Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="/ciphers#classic">Classical Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="/ciphers#stream">Stream Ciphers</a>
+          <a style={{ fontSize: "24px" }} href="/ciphers#block">Block Ciphers</a>
         </div>
       </div>
       <h2 id="classic" style={{ textAlign: "center", padding: "30px" }}>
@@ -29,7 +29,7 @@ function Ciphers() {
       <div className="ciphersection">
         {classicCiphers.map((cipher) => {
           return (
-            <Link to={`/Simple-Ciphers/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
+            <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
@@ -44,7 +44,7 @@ function Ciphers() {
       <div className="ciphersection">
         {streamCiphers.map((cipher) => {
           return (
-            <Link to={`/Simple-Ciphers/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
+            <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
@@ -59,7 +59,7 @@ function Ciphers() {
       <div className="ciphersection">
         {blockCiphers.map((cipher) => {
           return (
-            <Link to={`/Simple-Ciphers/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
+            <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
               <div>
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
