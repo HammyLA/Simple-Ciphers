@@ -36,7 +36,7 @@ function About() {
         <p>
           If you'd like to contribute to this project or explore the source
           code, check out the {" "}
-          <a href="/">
+          <a href="/https://github.com/HammyLA/Simple-Ciphers">
             <span>GitHub Repository</span>
           </a>
           . You can also find more projects on my {" "}
