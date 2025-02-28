@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AESDecrypt, AESEncrypt, generateKey } from '../../../ciphers/block/AESImp';
-import { copyToClip, errorMessage } from '../../Helper';
+import { copyToClip, getError } from '../../Helper';
 
 function AES({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
     const [key, setKey] = useState('')
@@ -12,7 +12,7 @@ function AES({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 onOutputSubmit(encrypted)
             } catch (error) {
                 console.log(error)
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }
@@ -24,7 +24,7 @@ function AES({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 onOutputSubmit(encrypted)
             } catch (error) {
                 console.log(error)
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }

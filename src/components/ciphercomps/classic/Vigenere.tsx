@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { generateKey, vigenereDecrypt, vigenereEncrypt } from '../../../ciphers/classic/VigenereImp';
-import { copyToClip, errorMessage } from '../../Helper';
+import { copyToClip, getError } from '../../Helper';
 
 function Vigenere({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
   const [key, setKey] = useState('')
@@ -11,7 +11,7 @@ function Vigenere({ input, onOutputSubmit }: { input: string | undefined; onOutp
                   const encrypted = vigenereEncrypt(input, key)
                   onOutputSubmit(encrypted)
               } catch (error) {
-                  alert(errorMessage(error))
+                  alert(getError(error))
               }
           }
       }
@@ -22,7 +22,7 @@ function Vigenere({ input, onOutputSubmit }: { input: string | undefined; onOutp
                   const decrypted = vigenereDecrypt(input, key)
                   onOutputSubmit(decrypted);
               } catch (error) {
-                  alert(errorMessage(error))
+                  alert(getError(error))
               }
           }
       }

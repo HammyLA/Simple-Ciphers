@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { copyToClip, errorMessage } from '../../Helper'
+import { copyToClip, getError } from '../../Helper'
 import { generateKey, RC4Decrypt, RC4Encrypt } from '../../../ciphers/stream/RC4Imp';
 
 function RC4({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
@@ -11,7 +11,7 @@ function RC4({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 const encrypted = RC4Encrypt(input, key)
                 onOutputSubmit(encrypted)
             } catch (error) {
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }
@@ -22,7 +22,7 @@ function RC4({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 const decrypted = RC4Decrypt(input, key)
                 onOutputSubmit(decrypted)
             } catch (error) {
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }

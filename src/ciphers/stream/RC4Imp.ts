@@ -1,5 +1,11 @@
 import { isHex } from "../../components/Helper";
 
+/**
+ * Encodes the string into bytes and uses the hexadecimal key to generate an RC4 Keystream to encrypt the message. The encrypted message is then returned in hexadecimal format.
+ * @param message Input string to be encrypted.
+ * @param key Private hexadecimal key string.
+ * @returns Encrypted hexadecimal string.
+ */
 export function RC4Encrypt(message: string, key: string) {
   isHex(key);
   var messageByte = new TextEncoder().encode(message);
@@ -15,6 +21,12 @@ export function RC4Encrypt(message: string, key: string) {
     .join("");
 }
 
+/**
+ * Translates the hexadecimal string into bytes and generates a RC4 Keystream using the private key to decrypt the ciphertext. Returns a string of the final decrypted message.
+ * @param encrypted Encrypted hexadecimal string.
+ * @param key Private hexadecimal key string.
+ * @returns Decrypted final message.
+ */
 export function RC4Decrypt(encrypted: string, key: string) {
   isHex(encrypted);
   isHex(key);
@@ -35,6 +47,11 @@ export function RC4Decrypt(encrypted: string, key: string) {
   return new TextDecoder().decode(xorStream);
 }
 
+/**
+ * Initializes the RC4 permutation table using the private key.
+ * @param key Hexadecimal private key string.
+ * @returns The initial permuted RC4 table.
+ */
 function RC4Init(key: string) {
   if (key.length % 2 != 0) {
     key = "0" + key;
@@ -63,13 +80,19 @@ function RC4Init(key: string) {
   return tableNums;
 }
 
-function RC4Keystream(key: string, bytestream: number) {
+/**
+ * Uses the private key to generate keystream bytes through the RC4 permutation table. The keystreamLength is the number of bytes to generate.
+ * @param key Private hexadecimal key string.
+ * @param keystreamLength Number of bytes to generate for the keystream.
+ * @returns Byte array representing the keystream.
+ */
+function RC4Keystream(key: string, keystreamLength: number) {
   var S = RC4Init(key);
   var i = 0;
   var j = 0;
-  var keystream = new Uint8Array(bytestream);
+  var keystream = new Uint8Array(keystreamLength);
 
-  for (var k = 0; k < bytestream; k++) {
+  for (var k = 0; k < keystreamLength; k++) {
     i = (i + 1) % 256;
     j = (j + S[i]) % 256;
 
@@ -83,6 +106,10 @@ function RC4Keystream(key: string, bytestream: number) {
   return keystream;
 }
 
+/**
+ * Generates a 32-hex (128 bit) key for use in the RC4 Cipher.
+ * @returns 32-hex private key.
+ */
 export function generateKey() {
   const chars = "0123456789abcdef";
   var key = "";

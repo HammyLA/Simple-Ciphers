@@ -8,6 +8,9 @@ import {
 // Credit to Ziaullah for these tables and implementation
 // https://ziaullahrajpoot.medium.com/data-encryption-standard-des-dc8610aafdb3
 
+/**
+ * Inital Permutation table for encryption (permutes bits)
+ */
 const ip_table = [
   58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44, 36, 28, 20, 12, 4, 62, 54, 46, 38,
   30, 22, 14, 6, 64, 56, 48, 40, 32, 24, 16, 8, 57, 49, 41, 33, 25, 17, 9, 1,
@@ -15,26 +18,41 @@ const ip_table = [
   31, 23, 15, 7,
 ];
 
+/**
+ * First key perumation table
+ */
 const pc1_table = [
   57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 59, 51, 43, 35,
   27, 19, 11, 3, 60, 52, 44, 36, 63, 55, 47, 39, 31, 23, 15, 7, 62, 54, 46, 38,
   30, 22, 14, 6, 61, 53, 45, 37, 29, 21, 13, 5, 28, 20, 12, 4,
 ];
 
+/**
+ * Shift schedule for generating round keys (left shifts to the bits in the key)
+ */
 const shift_schedule = [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1];
 
+/**
+ * Second key permutation table
+ */
 const pc2_table = [
   14, 17, 11, 24, 1, 5, 3, 28, 15, 6, 21, 10, 23, 19, 12, 4, 26, 8, 16, 7, 27,
   20, 13, 2, 41, 52, 31, 37, 47, 55, 30, 40, 51, 45, 33, 48, 44, 49, 39, 56, 34,
   53, 46, 42, 50, 36, 29, 32,
 ];
 
+/**
+ * Table for expanding bits from 32 to 48
+ */
 const e_box_table = [
   32, 1, 2, 3, 4, 5, 4, 5, 6, 7, 8, 9, 8, 9, 10, 11, 12, 13, 12, 13, 14, 15, 16,
   17, 16, 17, 18, 19, 20, 21, 20, 21, 22, 23, 24, 25, 24, 25, 26, 27, 28, 29,
   28, 29, 30, 31, 32, 1,
 ];
 
+/**
+ * Sboxes used for substituting bytes in encryption and decryption in DES
+ */
 const s_boxes = [
   // S-box 1
   [
@@ -94,11 +112,17 @@ const s_boxes = [
   ],
 ];
 
+/**
+ * Permutation box of 32 bits
+ */
 const p_box_table = [
   16, 7, 20, 21, 29, 12, 28, 17, 1, 15, 23, 26, 5, 18, 31, 10, 2, 8, 24, 14, 32,
   27, 3, 9, 19, 13, 30, 6, 22, 11, 4, 25,
 ];
 
+/**
+ * Inverse Initial Permutation Table for decryption
+ */
 const ip_inverse_table = [
   40, 8, 48, 16, 56, 24, 64, 32, 39, 7, 47, 15, 55, 23, 63, 31, 38, 6, 46, 14,
   54, 22, 62, 30, 37, 5, 45, 13, 53, 21, 61, 29, 36, 4, 44, 12, 52, 20, 60, 28,
@@ -106,7 +130,13 @@ const ip_inverse_table = [
   49, 17, 57, 25,
 ];
 
-export function DESEncrypt(message: string, key: string) {
+/**
+ * DES encryption function. splits message into blocks and passes them through the encryption algorithm. The encrypted blocks are then combined and returned in hexadecimal format
+ * @param message The input message to be encrypted
+ * @param key The private 64-bit key (16 hexadecimal)
+ * @returns Hexadecimal representation of the encrypted string
+ */
+export function DESEncrypt(message: string, key: string): string {
   isHex(key);
   if (key.length != 16) {
     throw new Error("Enter a 64-bit key (16-hex)");
@@ -132,7 +162,13 @@ export function DESEncrypt(message: string, key: string) {
   return bin2hex(encryptedBlocks.join(""));
 }
 
-export function DESDecrypt(hexstring: string, key: string) {
+/**
+ * DES Decryption Function. Translates hexadecimal string into blocks and passes them through the decryption function. The decrypted message is decoded into text format and returned as a string.
+ * @param hexstring Hexadecimal representation of a DES encrypted message
+ * @param key The private 64-bit key (16 hexadecimal)
+ * @returns
+ */
+export function DESDecrypt(hexstring: string, key: string): string {
   isHex(key);
   isHex(hexstring);
   if (key.length != 16) {
@@ -161,7 +197,13 @@ export function DESDecrypt(hexstring: string, key: string) {
   return new TextDecoder().decode(byteArray);
 }
 
-function encrypt(bitstring: string, key: string) {
+/**
+ * Encryption Algorithm for DES, returns bit representation of encoded block
+ * @param bitstring binary representation of a block
+ * @param key binary representation of the private key
+ * @returns binary representation of encoded block
+ */
+function encrypt(bitstring: string, key: string): string {
   var roundKeys = generateRoundKey(key);
   var ipStr = init(bitstring);
 
@@ -185,7 +227,13 @@ function encrypt(bitstring: string, key: string) {
   return cipher;
 }
 
-function decrypt(cipherbin: string, key: string) {
+/**
+ * DES Decryption Algorithm. Returns bit representation of the decoded message.
+ * @param cipherbin binary representation of encrypted message
+ * @param key binary representation of the private key
+ * @returns binary representation of the decoded message
+ */
+function decrypt(cipherbin: string, key: string): string {
   var roundKeys = generateRoundKey(key);
   var ipStr = init(cipherbin);
 
@@ -210,7 +258,14 @@ function decrypt(cipherbin: string, key: string) {
   return decrypted;
 }
 
-function DESAlgo(l: string, expandR: string, roundKey: string) {
+/**
+ * Main body DES algorithm used in encryption and decryption. Substitutes using S-Boxes, permutes using P-Boxes, and XORs the left and new right sides for the right side calculation.
+ * @param l The 32 left side bits of the block
+ * @param expandR Expanded 48 bits of the right side of the block
+ * @param roundKey Current round key for the specified round
+ * @returns Bit representation of the new right side.
+ */
+function DESAlgo(l: string, expandR: string, roundKey: string): string {
   var xorStr = "";
   for (var i = 0; i < 48; i++) {
     xorStr += expandR.charAt(i) === roundKey.charAt(i) ? "0" : "1";
@@ -240,7 +295,12 @@ function DESAlgo(l: string, expandR: string, roundKey: string) {
   return newR;
 }
 
-function init(bitstring: string) {
+/**
+ * Initializes the original block using the initial permutation table. Permutes bits around based on the ip_table
+ * @param bitstring binary representation of the block
+ * @returns permuted binary representation of the block
+ */
+function init(bitstring: string): string {
   var permute = "";
   for (var i = 0; i < 64; i++) {
     permute += bitstring.charAt(ip_table[i] - 1); // I WAS DOING "ip_table[i]" THIS CAUSE HOURS OF STRESS
@@ -248,7 +308,12 @@ function init(bitstring: string) {
   return permute;
 }
 
-function generateRoundKey(key: string) {
+/**
+ * Generates a list of keys for each round based on key schedule algorithm of DES. It shifts left the key based on the shift_schedule table. There are 16 total keys in the list.
+ * @param key The private key string
+ * @returns 16 Round keys for 16 rounds of encryption/decryption
+ */
+function generateRoundKey(key: string): string[] {
   let pc1key = pc1_table.map((index) => key.charAt(index - 1)).join("");
 
   var c0 = pc1key.slice(0, 28);
@@ -266,7 +331,11 @@ function generateRoundKey(key: string) {
   return round_keys;
 }
 
-export function generateKey() {
+/**
+ * Generates a 16 hex key for usage in the DES cryptosystem
+ * @returns 16 hex key in string format
+ */
+export function generateKey(): string {
   const chars = "0123456789abcdef";
   var key = "";
 

@@ -1,5 +1,15 @@
 import { hex2ByteArray, isHex, string2blocks } from "../../components/Helper";
 
+/**
+ * This is the Tiny Encryption Algorithm (TEA) implementation. This does not contain the fixes from XTEA or XXTEA to ensure security, just the original TEA implementation.
+ */
+
+/**
+ * TEA Encryption function. Translates message and key into byte arrays and passes them through the encryption algorithm. Returns a hexadecimal string representing the encoded message
+ * @param message Input string to be encrypted
+ * @param key The private key string
+ * @returns Hexadecimal string of the encrypted message
+ */
 export function TEAEncrypt(message: string, key: string) {
   isHex(key);
   if (key.length != 32) {
@@ -16,6 +26,12 @@ export function TEAEncrypt(message: string, key: string) {
     .join("");
 }
 
+/**
+ * TEA Decryption function. Translates hexadecimal ciphertext and key into a byte array and passes them through the encryption algorithm. Returns decoded string.
+ * @param ciphertext Hexadecimal TEA encrypted string
+ * @param key The private key string
+ * @returns The decoded string
+ */
 export function TEADecrypt(ciphertext: string, key: string) {
   isHex(ciphertext);
   isHex(key);
@@ -32,6 +48,12 @@ export function TEADecrypt(ciphertext: string, key: string) {
   return decoder.decode(res);
 }
 
+/**
+ * TEA Encryption Algorithm. 32 Encryption Rounds of a Feistel Style Cipher utilizing bitwise operations to encrypt the message.
+ * @param block Byte array of the input string block
+ * @param key Byte array of the private key
+ * @returns Encrypted byte array of the block
+ */
 function encrypt(block: Uint8Array, key: Uint8Array): Uint8Array {
   if (block.length !== 8 || key.length !== 16) {
     throw new Error("TEA requires an 8-byte block and a 16-byte key.");
@@ -51,6 +73,12 @@ function encrypt(block: Uint8Array, key: Uint8Array): Uint8Array {
   return processOut(block, v0, v1);
 }
 
+/**
+ * TEA Decryption Algorithm. 32 Decryption Rounds that are inverse to the operations done to encrypt the message.
+ * @param block Byte array of the input string block
+ * @param key Byte array of the privat key
+ * @returns Decrypted byte array of the block
+ */
 function decrypt(block: Uint8Array, key: Uint8Array): Uint8Array {
   if (block.length !== 8 || key.length !== 16) {
     throw new Error("TEA requires an 8-byte block and a 16-byte key.");
@@ -69,6 +97,12 @@ function decrypt(block: Uint8Array, key: Uint8Array): Uint8Array {
   return processOut(block, v0, v1);
 }
 
+/**
+ * Processes bytes into equivalent bit values based on their position in the array
+ * @param block array of bytes from the message
+ * @param key array of bytes from the key
+ * @returns
+ */
 function processIn(
   block: Uint8Array,
   key: Uint8Array
@@ -109,6 +143,13 @@ function processIn(
   return [v0, v1, k];
 }
 
+/**
+ * Translates the resulting operations on the block into an array of bytes to pass back and decode
+ * @param block block of bytes from the input
+ * @param v0 result of the left side in the TEA algorithm
+ * @param v1 result of the right side in the TEA algorithm
+ * @returns
+ */
 function processOut(block: Uint8Array, v0: number, v1: number): Uint8Array {
   block[0] = (v0 >>> 24) & 0xff;
   block[1] = (v0 >>> 16) & 0xff;

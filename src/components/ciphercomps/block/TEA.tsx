@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { copyToClip, errorMessage } from '../../Helper';
+import { copyToClip, getError } from '../../Helper';
 import { generateKey, TEADecrypt, TEAEncrypt } from '../../../ciphers/block/TEAImp';
 
 function TEA({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
@@ -12,7 +12,7 @@ function TEA({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 onOutputSubmit(encrypted)
             } catch (error) {
                 console.log(error)
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }
@@ -24,7 +24,7 @@ function TEA({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 onOutputSubmit(encrypted)
             } catch (error) {
                 console.log(error)
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }

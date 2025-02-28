@@ -1,5 +1,11 @@
 import { checkAlphabet } from "../../components/Helper";
 
+/**
+ * Encrypts a message using the Vigenere Cipher, given a key the message will be offset by the index of the corresponding letter in the alphabet.
+ * @param message Input string to be encrypted.
+ * @param key The private keyword string.
+ * @returns The encrypted string.
+ */
 export function vigenereEncrypt(message: string, key: string) {
   checkAlphabet(message);
   checkAlphabet(key);
@@ -23,6 +29,12 @@ export function vigenereEncrypt(message: string, key: string) {
   return encrypted;
 }
 
+/**
+ * Decrypts a message using the Vigenere Cipher, given a key the message will be offset in the INVERSE direction as the encryption.
+ * @param encrypted Ciphertext string.
+ * @param key The private keyword string.
+ * @returns The decrypted message.
+ */
 export function vigenereDecrypt(encrypted: string, key: string) {
   checkAlphabet(encrypted);
   checkAlphabet(key);
@@ -47,6 +59,10 @@ export function vigenereDecrypt(encrypted: string, key: string) {
   return decrypted;
 }
 
+/**
+ * Generates a keyword for the Vigenere Cipher from 6 to 16 characters.
+ * @returns Keyword string from 6 to 16 characters.
+ */
 export function generateKey() {
   var length = Math.floor(Math.random() * 10) + 6;
   var key = "";

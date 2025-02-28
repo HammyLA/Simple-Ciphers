@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { copyToClip, errorMessage } from '../../Helper';
+import { copyToClip, getError } from '../../Helper';
 import { DESDecrypt, DESEncrypt } from '../../../ciphers/block/DESImp';
 import { generateKey } from '../../../ciphers/block/DESImp';
 
@@ -12,7 +12,7 @@ function DES({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 const encrypted = DESEncrypt(input, key)
                 onOutputSubmit(encrypted)
             } catch (error) {
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }
@@ -23,7 +23,7 @@ function DES({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 const encrypted = DESDecrypt(input, key)
                 onOutputSubmit(encrypted)
             } catch (error) {
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }

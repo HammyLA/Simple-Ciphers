@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { A51Decrypt, A51Encrypt, generateKey } from '../../../ciphers/stream/A51Imp';
-import { copyToClip, errorMessage } from '../../Helper';
+import { copyToClip, getError } from '../../Helper';
 
 function A51({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
     const [key, setKey] = useState('')
@@ -11,7 +11,7 @@ function A51({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 const encrypted = A51Encrypt(input, key)
                 onOutputSubmit(encrypted)
             } catch (error) {
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }
@@ -22,7 +22,7 @@ function A51({ input, onOutputSubmit }: { input: string | undefined; onOutputSub
                 const decrypted = A51Decrypt(input, key)
                 onOutputSubmit(decrypted)
             } catch (error) {
-                alert(errorMessage(error))
+                alert(getError(error))
             }
         }
     }
