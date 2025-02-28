@@ -3,6 +3,9 @@ import { hex2ByteArray, isHex, string2blocks } from "../../components/Helper";
 // A lot of reference from https://github.com/francisrstokes/AES-C/blob/main/src/aes.c
 // Francis R. Stokes has a great blog on implementing AES as well here: https://github.com/francisrstokes/githublog/blob/main/2022/6/15/rolling-your-own-crypto-aes.md
 
+/**
+ * Substitution box (S-box) for encryption
+ */
 const sbox_encrypt: Uint8Array = new Uint8Array([
   0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe,
   0xd7, 0xab, 0x76, 0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4,
@@ -26,6 +29,9 @@ const sbox_encrypt: Uint8Array = new Uint8Array([
   0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16,
 ]);
 
+/**
+ * Substitution box (S-box) for decryption
+ */
 const sbox_decrypt: Uint8Array = new Uint8Array([
   0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81,
   0xf3, 0xd7, 0xfb, 0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e,
@@ -49,6 +55,9 @@ const sbox_decrypt: Uint8Array = new Uint8Array([
   0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d,
 ]);
 
+/**
+ * Used for initialization for generating following keys in the key schedule
+ */
 const rcon: Uint8Array[] = [
   new Uint8Array([0x01, 0x00, 0x00, 0x00]),
   new Uint8Array([0x02, 0x00, 0x00, 0x00]),
@@ -62,7 +71,13 @@ const rcon: Uint8Array[] = [
   new Uint8Array([0x36, 0x00, 0x00, 0x00]),
 ];
 
-export function AESEncrypt(message: string, key: string) {
+/**
+ * Splits message into blocks and encrypts them. The resulting encrypted blocks in hexadecimal are combined together into a ciphertext string.
+ * @param {string} message Input string for encryption
+ * @param {string} key 32-bit Hexadecimal private key string to encrypt the message
+ * @returns {string} The encrypted message in hexadecimal with a length of mod 32 to conform to 128-bit blocks
+ */
+export function AESEncrypt(message: string, key: string): string {
   isHex(key);
   if (key.length != 32) {
     throw new Error("Enter a 128-bit (32 hex) key");
@@ -82,9 +97,18 @@ export function AESEncrypt(message: string, key: string) {
   return encrypted;
 }
 
-export function AESDecrypt(ciphertext: string, key: string) {
+/**
+ * Splits ciphertext into blocks and decrypts each in ECB mode. The resulting blocks are then combined into one string and returned
+ * @param {string} ciphertext Input hexadecimal string of encrypted ciphertext
+ * @param {string} key 32-bit Hexadecimal private key string to encrypt the message
+ * @returns {string} The decrypted message string
+ */
+export function AESDecrypt(ciphertext: string, key: string): string {
   isHex(ciphertext);
   isHex(key);
+  if (key.length != 32) {
+    throw new Error("Enter a 128-bit (32 hex) key");
+  }
   let decoder = new TextDecoder();
   let byteArray = hex2ByteArray(ciphertext);
   let keyBytes = hex2ByteArray(key);
@@ -100,7 +124,11 @@ export function AESDecrypt(ciphertext: string, key: string) {
   return decrypted;
 }
 
-export function generateKey() {
+/**
+ *
+ * @returns 32-bit generated pseudorandom key for use in AES
+ */
+export function generateKey(): string {
   let chars = "0123456789abcdef";
   let keyLength = 32;
   let key = "";
@@ -110,7 +138,13 @@ export function generateKey() {
   return key;
 }
 
-function GFMult(a: number, b: number) {
+/**
+ * Galois Field Multiplication used for MixColumns in AES
+ * @param a 1st Input to Galois Field Multiplication
+ * @param b 2nd Input to Galois Field Multiplication
+ * @returns Output Number of Galois Field Multiplication
+ */
+function GFMult(a: number, b: number): number {
   let res = 0;
   let shiftOut = 0;
 
@@ -128,7 +162,13 @@ function GFMult(a: number, b: number) {
   return res;
 }
 
-function keySchedule(key: Uint8Array, rounds: number) {
+/**
+ * Generates a key schedule for encryption and decryption of AES to use for each round. The resulting list is indexed from 0 being the first round and "rounds" - 1 being the last round
+ * @param key Byte array of the key
+ * @param rounds Number of rounds to go through, traditionally AES-128 goes throygh 11 rounds
+ * @returns Arrray of byte matrices representing the key schedule
+ */
+function keySchedule(key: Uint8Array, rounds: number): Uint8Array[][] {
   var currKey = arrayToMatrix(key);
   let blockKeys: Uint8Array[][] = [];
   blockKeys.push(currKey);
@@ -156,6 +196,11 @@ function keySchedule(key: Uint8Array, rounds: number) {
   return blockKeys;
 }
 
+/**
+ * Add Round Key operation of AES, XORs current matrix values to corresponding current round key matrix values and sets them in the current state matrix
+ * @param state The state of matrix currently being encrypted (ie. input matrix)
+ * @param roundKey The current round key matrix
+ */
 function addRoundKey(state: Uint8Array[], roundKey: Uint8Array[]) {
   for (var col = 0; col < 4; col++) {
     for (var row = 0; row < 4; row++) {
@@ -164,6 +209,11 @@ function addRoundKey(state: Uint8Array[], roundKey: Uint8Array[]) {
   }
 }
 
+/**
+ * Sub Bytes operation of AES. Each state matrix value is replaced by values corresponding in the S-Box table.
+ * @param state The state of matrix currently being encrypted (ie. input matrix)
+ * @param table The S-Box table used to substitute values in the state matrix (sbox_encrypt or sbox_decrypt)
+ */
 function subBytes(state: Uint8Array[], table: Uint8Array) {
   for (var col = 0; col < 4; col++) {
     for (var row = 0; row < 4; row++) {
@@ -172,6 +222,10 @@ function subBytes(state: Uint8Array[], table: Uint8Array) {
   }
 }
 
+/**
+ * Shift Row operation of AES. State matrix is shifted depending on the row it is (0, 1, 2, 3 shifts to the left)
+ * @param state Current state matrix being encrypted (ie. input matrix)
+ */
 function shiftRows(state: Uint8Array[]) {
   var temp0;
   var temp1;
@@ -202,6 +256,10 @@ function shiftRows(state: Uint8Array[]) {
   state[0][3] = temp0;
 }
 
+/**
+ * Inverse of the shift row process in AES. This is for decryption (shifts right instead of left)
+ * @param state Current state matrix being decrypted
+ */
 function invShiftRows(state: Uint8Array[]) {
   var temp0;
   var temp1;
@@ -232,6 +290,10 @@ function invShiftRows(state: Uint8Array[]) {
   state[3][3] = temp0;
 }
 
+/**
+ * Mix Column operation of AES, Utilizes Galois Field Multiplication to alter each column of the state matrix
+ * @param state The state of matrix currently being encrypted (ie. input matrix)
+ */
 function mixColumn(state: Uint8Array[]) {
   for (let i = 0; i < 4; i++) {
     const s0 = state[i][0];
@@ -246,6 +308,10 @@ function mixColumn(state: Uint8Array[]) {
   }
 }
 
+/**
+ * Inverse operation of Mix Column in AES. Used for decryption
+ * @param state Current matrix being decrypted.
+ */
 function invMixColumn(state: Uint8Array[]) {
   for (let i = 0; i < 4; i++) {
     const s0 = state[i][0];
@@ -264,6 +330,10 @@ function invMixColumn(state: Uint8Array[]) {
   }
 }
 
+/**
+ * Circular rotation of a column in a matrix
+ * @param column Column in a matrix
+ */
 function rotWord(column: Uint8Array) {
   let temp = column[0];
   column[0] = column[1];
@@ -272,12 +342,23 @@ function rotWord(column: Uint8Array) {
   column[3] = temp;
 }
 
+/**
+ * Substitution of values in a column using the S-box table
+ * @param column Column in a matrix
+ * @param table The S-Box table used to substitute values in the state matrix (sbox_encrypt or sbox_decrypt)
+ */
 function subWord(column: Uint8Array, table: Uint8Array) {
   for (var i = 0; i < 4; i++) {
     column[i] = table[column[i]];
   }
 }
 
+/**
+ * Adds bytes together for columns
+ * @param a input column 1
+ * @param b input column 2
+ * @param dest desired output column
+ */
 function wordAdd(a: Uint8Array, b: Uint8Array, dest: Uint8Array) {
   dest[0] = a[0] ^ b[0];
   dest[1] = a[1] ^ b[1];
@@ -285,6 +366,13 @@ function wordAdd(a: Uint8Array, b: Uint8Array, dest: Uint8Array) {
   dest[3] = a[3] ^ b[3];
 }
 
+/**
+ * Encryption algorithm of AES.
+ * @param block Input byte array of the message.
+ * @param keySchedule Calculated key schedule based on the key input.
+ * @param rounds Number of rounds that AES will run through.
+ * @returns The byte array of the AES encrypted message
+ */
 function encryptBlock(
   block: Uint8Array,
   keySchedule: Uint8Array[][],
@@ -306,7 +394,13 @@ function encryptBlock(
 
   return matrixToArray(state);
 }
-
+/**
+ * Decryption algorithm of AES, inverse of the encryption in AES.
+ * @param block Input byte array of the ciphertext.
+ * @param keySchedule Calculated key schedule based on the key input.
+ * @param rounds Number of rounds that AES will run through.
+ * @returns The byte array of the AES decrypted message.
+ */
 function decryptBlock(
   block: Uint8Array,
   keySchedule: Uint8Array[][],
@@ -329,6 +423,11 @@ function decryptBlock(
   return matrixToArray(state);
 }
 
+/**
+ * Transposes byte array to a 4x4 matrix needed for AES.
+ * @param arr 16-Byte array.
+ * @returns 4x4 Matrix of the byte array.
+ */
 function arrayToMatrix(arr: Uint8Array): Uint8Array[] {
   if (arr.length !== 16) {
     throw new Error("Array must have exactly 16 elements");
@@ -344,6 +443,11 @@ function arrayToMatrix(arr: Uint8Array): Uint8Array[] {
   return matrix;
 }
 
+/**
+ * Transposes byte matrix to a byte array
+ * @param mat 4x4 Byte Matrix used in AES
+ * @returns 16-Byte array
+ */
 function matrixToArray(mat: Uint8Array[]) {
   let arr: number[] = [];
   for (var i = 0; i < 4; i++) {
