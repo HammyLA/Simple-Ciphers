@@ -1,0 +1,29 @@
+services:
+  frontend:
+    container_name: simple-ciphers-frontend
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://backend:5000
+
+  backend:
+    container_name: simple-ciphers-backend
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - NODE_ENV=development
+
+volumes:
+  pgdata: 
+  node_modules: 
