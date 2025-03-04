@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 # Expose the port the backend will run on
-EXPOSE 5000
+EXPOSE 5003
 
 # Start the express server
 CMD ["npm", "run", "dev"]

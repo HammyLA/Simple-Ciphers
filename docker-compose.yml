@@ -11,19 +11,35 @@ services:
     depends_on:
       - backend
     environment:
-      - VITE_API_URL=http://backend:5000
+      API_BASE: http://backend:5003
+      PORT: 5173
 
   backend:
     container_name: simple-ciphers-backend
     build:
       context: ./backend
     ports:
-      - "5000:5000"
+      - "5003:5003"
     volumes:
       - ./backend:/app
     environment:
       - NODE_ENV=development
 
+  db:
+    container_name: postgres-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: hammyla
+      POSTGRES_PASSWORD: andrei8888
+      POSTGRES_DB: simpleciphers
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    
+
 volumes:
-  pgdata: 
+  postgres-data: 
   node_modules: 
+  db:
