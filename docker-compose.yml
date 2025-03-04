@@ -7,7 +7,6 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend:/app
-      - node_modules:/app/node_modules
     depends_on:
       - backend
     environment:
@@ -23,9 +22,12 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      - NODE_ENV=development
+      NODE_ENV: development
+      DATABASE_URL: postgres://hammyla:andrei8888@postgres-db:5432/simpleciphersd
+    depends_on:
+      - postgres-db
 
-  db:
+  postgres-db:
     container_name: postgres-db
     image: postgres
     restart: always
@@ -41,5 +43,3 @@ services:
 
 volumes:
   postgres-data: 
-  node_modules: 
-  db:

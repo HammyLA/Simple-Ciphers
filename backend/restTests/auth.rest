@@ -1,0 +1,9 @@
+### Register as a user in the database
+POST http://localhost:5003/auth/register
+Content-Type: application/json
+
+{
+    "username": "Billy",
+    "email": "billy@gmail.com",
+    "password": "billytheking"
+}

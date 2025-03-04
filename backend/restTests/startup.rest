@@ -1,0 +1,2 @@
+### Check connection to the backend
+GET http://localhost:5003/
