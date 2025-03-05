@@ -7,3 +7,31 @@ Content-Type: application/json
     "email": "billy@gmail.com",
     "password": "billytheking"
 }
+
+### Login as a user in the database
+POST http://localhost:5003/auth/login
+Content-Type: application/json
+
+{
+    "username": "Billy",
+    "password": "billytheking"
+}
+
+### Second user logged into the database
+POST http://localhost:5003/auth/register
+Content-Type: application/json
+
+{
+    "username": "Rogertheguy",
+    "email": "rogerhim@gmail.com",
+    "password": "rogerspasswrod"
+}
+
+### Second Login as a user in the database
+POST http://localhost:5003/auth/login
+Content-Type: application/json
+
+{
+    "username": "Rogertheguy",
+    "password": "rogerspasswrod"
+}

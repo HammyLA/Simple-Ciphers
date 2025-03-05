@@ -5,10 +5,9 @@ import { useEffect } from "react";
 
 
 function Home() {
-  const apiUrl = import.meta.env.VITE_API_BASE;
 
   useEffect(() => {
-    fetch(apiUrl + '/', {
+    fetch(import.meta.env.VITE_API_BASE + '/', {
       method: 'GET',
     })
   }, [])

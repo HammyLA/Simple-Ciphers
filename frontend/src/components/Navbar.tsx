@@ -11,6 +11,9 @@ function Navbar() {
       <NavLink to="/">Home</NavLink>
       <NavLink to="/ciphers">Ciphers</NavLink>
       <NavLink to="/about">About</NavLink>
+      <div className='topnavright'>
+        <NavLink id="auth" to="/auth">Sign Up</NavLink>
+      </div>
     </div>
   )
 }
