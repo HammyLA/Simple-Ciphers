@@ -9,17 +9,18 @@ import { checkAlphabet } from "../../components/Helper";
 export function subCipherEncrypt(message: string, key: string) {
   checkAlphabet(message)
   var upperKey = key.toUpperCase();
-  var alphaset: Set<string> = new Set<string>();
+  var alphaset: Record<string, boolean> = {};
   if (key.length != 26) {
     throw new Error("Key should be exactly 26 characters");
   }
 
   for (var i = 0; i < key.length; i++) {
-    if (alphaset.has(upperKey.charAt(i))) {
-      throw new Error("Key should have unique letters");
+    if (alphaset[upperKey.charAt(i)]) {
+        throw new Error("Key should have unique letters");
     }
-    alphaset.add(upperKey.charAt(i));
-  }
+    alphaset[upperKey.charAt(i)] = true;
+}
+
 
   var temp = message.toUpperCase();
   var ret = "";
@@ -44,17 +45,18 @@ export function subCipherEncrypt(message: string, key: string) {
 export function subCipherDecrypt(encrypted: string, key: string) {
   checkAlphabet(encrypted)
   var upperKey = key.toUpperCase();
-  var alphaset: Set<string> = new Set<string>();
+  var alphaset: Record<string, boolean> = {};
   if (key.length != 26) {
     throw new Error("Key should be exactly 26 characters");
   }
 
   for (var i = 0; i < key.length; i++) {
-    if (alphaset.has(upperKey.charAt(i))) {
-      throw new Error("Key should have unique letters");
+    if (alphaset[upperKey.charAt(i)]) {
+        throw new Error("Key should have unique letters");
     }
-    alphaset.add(upperKey.charAt(i));
-  }
+    alphaset[upperKey.charAt(i)] = true;
+}
+
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var temp = encrypted.toUpperCase();
@@ -74,12 +76,16 @@ export function subCipherDecrypt(encrypted: string, key: string) {
  * 
  * @returns 
  */
-export function generateKey() {
+export function substitutionGenerateKey() {
   var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let charArray = alphabet.split("");
+
+  let randomValues = new Uint32Array(1028);
+  crypto.getRandomValues(randomValues);
+
   for (var i = 0; i < 1028; i++) {
-    var pos1 = Math.floor(Math.random() * 26);
-    var pos2 = Math.floor(Math.random() * 26);
+    var pos1 = randomValues[i] % 26;
+    var pos2 = (randomValues[i] + 1) % 26; // Ensure different positions
     var temp = charArray[pos1];
     charArray[pos1] = charArray[pos2];
     charArray[pos2] = temp;
@@ -87,3 +93,4 @@ export function generateKey() {
 
   return charArray.join("");
 }
+

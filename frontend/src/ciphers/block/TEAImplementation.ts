@@ -164,7 +164,7 @@ function processOut(block: Uint8Array, v0: number, v1: number): Uint8Array {
   return block;
 }
 
-export function generateKey() {
+export function TEAGenerateKey() {
   let chars = "0123456789abcdef";
   var key = "";
   for (var i = 0; i < 32; i++) {

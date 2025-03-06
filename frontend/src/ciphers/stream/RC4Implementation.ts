@@ -110,7 +110,7 @@ function RC4Keystream(key: string, keystreamLength: number) {
  * Generates a 32-hex (128 bit) key for use in the RC4 Cipher.
  * @returns 32-hex private key.
  */
-export function generateKey() {
+export function RC4GenerateKey() {
   const chars = "0123456789abcdef";
   var key = "";
 

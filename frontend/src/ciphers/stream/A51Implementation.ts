@@ -174,7 +174,7 @@ function vote(x: number, y: number, z: number) {
  * Generates a hexadecimal key string of 16 hex, (64-bit)
  * @returns 16-hex key string.
  */
-export function generateKey() {
+export function A51GenerateKey() {
   const chars = "0123456789abcdef";
   var key = "";
   const keyLength = 16;

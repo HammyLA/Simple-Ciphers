@@ -44,7 +44,10 @@ export function OTPdecrypt(encrypted: string, key: string) {
  * @param message Input message
  * @returns A key of the length or longer than the message
  */
-export function generateKey(message: string) {
+export function OTPGenerateKey(message?: string) {
+  if (!message) {
+    throw new Error("Please input a message to generate a key")
+  }
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   var padding = Math.floor(Math.random() * 11);

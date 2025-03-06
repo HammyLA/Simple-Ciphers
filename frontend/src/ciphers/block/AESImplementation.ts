@@ -129,7 +129,7 @@ export function AESDecrypt(ciphertext: string, key: string): string {
  *
  * @returns 32-bit generated pseudorandom key for use in AES
  */
-export function generateKey(): string {
+export function AESGenerateKey(): string {
   let chars = "0123456789abcdef";
   let keyLength = 32;
   let key = "";

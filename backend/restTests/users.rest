@@ -1,0 +1,5 @@
+token = 4
+
+#### GET a user's information
+GET http://localhost:5003/users
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQxMjQwODE5LCJleHAiOjE3NDEzMjcyMTl9.ThQV2l5A1yTrxi8uQU1QGH4Jmq2yWSK_w7qgmptOLwY

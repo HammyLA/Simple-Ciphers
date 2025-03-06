@@ -341,7 +341,7 @@ function generateRoundKey(key: string): string[] {
  * Generates a 16 hex key for usage in the DES cryptosystem
  * @returns 16 hex key in string format
  */
-export function generateKey(): string {
+export function DESGenerateKey(): string {
   const chars = "0123456789abcdef";
   var key = "";
 

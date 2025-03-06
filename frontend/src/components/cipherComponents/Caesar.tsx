@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { caesarDecrypt, caesarEncrypt } from '../../../ciphers/classic/CaesarImplementation';
-import { getError } from '../../Helper';
+import { caesarDecrypt, caesarEncrypt } from '../../ciphers/classic/CaesarImplementation'
+import { getError } from '../Helper';
 
 function Caesar({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
   const [shift, setShift] = useState(0)

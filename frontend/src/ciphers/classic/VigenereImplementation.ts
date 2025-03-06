@@ -63,7 +63,7 @@ export function vigenereDecrypt(encrypted: string, key: string) {
  * Generates a keyword for the Vigenere Cipher from 6 to 16 characters.
  * @returns Keyword string from 6 to 16 characters.
  */
-export function generateKey() {
+export function vigenereGenerateKey() {
   var length = Math.floor(Math.random() * 10) + 6;
   var key = "";
   for (var i = 0; i < length; i++) {

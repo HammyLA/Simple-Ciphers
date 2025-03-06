@@ -1,7 +1,7 @@
 import "../styles/Ciphers.css";
 import { Link } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
-import CipherList from "../components/CipherList";
+import CipherList from "../components/CipherList"
 
 
 function Ciphers() {

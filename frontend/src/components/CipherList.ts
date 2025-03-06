@@ -17,19 +17,19 @@ const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
         id: 0,
         name: "Caesar Cipher",
         description: "Alphabet shifted based on a value",
-        path: "caesar"
+        path: "caesar",
       },
       {
         id: 1,
         name: "Substitution Cipher",
         description: "Letter assigned to another letter",
-        path: "substitution"
+        path: "substitution",
       },
       {
         id: 2,
         name: "One-Time Pad",
         description: "Plaintext combined with a random secret key",
-        path: "otp"
+        path: "otp",
       },
       {
         id: 3,
