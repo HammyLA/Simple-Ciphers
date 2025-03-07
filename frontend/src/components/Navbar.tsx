@@ -12,17 +12,24 @@ function Navbar() {
   useEffect(() => {
     if (localStorage.getItem('authToken')) {
       setLoggedIn(true)
-      const fetchData = (async () => {
-        const response = await fetch(import.meta.env.VITE_API_BASE + '/users', {
-          method: "GET",
-          headers: { 'Authorization': localStorage.getItem('authToken') as string }
-        })
-        const responseUsername = await response.json()
-        setUsername(responseUsername)
+      const fetchNameWithToken = (async () => {
+        try {
+          const response = await fetch(import.meta.env.VITE_API_BASE + '/users', {
+            method: "GET",
+            headers: { 'Authorization': localStorage.getItem('authToken') as string }
+          })
+          const responseUsername = await response.json()
+          setUsername(responseUsername)
+        }
+        catch (err: any) {
+          console.log(err.message)
+          localStorage.removeItem('authToken')
+        }
+        
       })
-      fetchData();
+      fetchNameWithToken();
     }
-  }, [localStorage.getItem('authToken')])
+  })
 
 
   return (

@@ -60,7 +60,7 @@ const cipherFunctions: {
 };
 
 
-function CryptoWithKey({ input, onOutputSubmit, cipherId }: { input: string | undefined; onOutputSubmit: (output: string) => void; cipherId: number }) {
+function CryptoWithKey({ input, onOutputSubmit, cipherId, cipherName }: { input: string | undefined; onOutputSubmit: (output: string) => void; cipherId: number; cipherName: string }) {
     const [key, setKey] = useState('');
     useEffect(() => {
         console.log(cipherFunctions[cipherId])
@@ -91,10 +91,29 @@ function CryptoWithKey({ input, onOutputSubmit, cipherId }: { input: string | un
         }
     };
 
+    const saveKey = async (key: string) => {
+        if (key && localStorage.getItem('authToken')) {
+            try {
+                const response = await fetch(import.meta.env.VITE_API_BASE + '/keys', {
+                    method: "POST",
+                    headers: { 'Authorization': localStorage.getItem('authToken') as string, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key: key, cipher: cipherName })
+                })
+                console.log(await response.json())
+            } catch (err) {
+                alert(getError(err))
+            }
+        }
+        else {
+            alert("Please Enter a Key")
+        }
+    }
+
     return (
         <div>
             <div className='ciphercomp'>
                 <div>
+                    <button disabled={!localStorage.getItem('authToken')} onClick={() => saveKey(key)}>Save</button>
                     <button id='copy' onClick={() => copyToClip(key)}></button>
                     <input placeholder='KEY' value={key} onChange={(e) => setKey(e.target.value)}></input>
                     <button onClick={() => setKey(cipherFunctions[cipherId].generateKey)}>Generate Key</button>

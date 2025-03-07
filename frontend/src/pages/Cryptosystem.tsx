@@ -26,6 +26,7 @@ function Crypto() {
         input={input}
         onOutputSubmit={setOutput}
         cipherId={cipher.id}
+        cipherName={cipher.name}
       />}
       <TextBox type="output" text={output} />
     </div>

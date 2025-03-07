@@ -76,6 +76,7 @@ function Authorization() {
         setLoggedIn(true)
         localStorage.setItem('authToken', token)
       }
+      window.location.reload()
 
     } catch (err: any) {
       console.log(err.message)
