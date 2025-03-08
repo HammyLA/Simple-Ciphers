@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./pages/PageNotFound";
 import Authorization from "./pages/Authorization";
 import Profile from "./pages/Profile";
+import Stats from "./pages/Stats";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/auth" element={<Authorization />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/stats" element={<Stats />} />
       </Routes>
     </>
   );

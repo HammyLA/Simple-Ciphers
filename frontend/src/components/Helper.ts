@@ -1,9 +1,22 @@
+import { Bounce, toast } from "react-toastify";
+
 /**
  * Copies specified text to clipboard for pasting
  * @param text String to be copied
  */
 export function copyToClip(text: string) {
   navigator.clipboard.writeText(text);
+  toast.success(`Copied key: ${text}`, {
+    position: "top-right",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  });
 }
 
 /**
@@ -87,7 +100,7 @@ export function string2blocks(str: string, bytes: number): Uint8Array {
     throw new Error("Error: Byte Array not formatted properly");
   }
 
-  return byteArray
+  return byteArray;
 }
 
 /**
@@ -101,10 +114,10 @@ export function hex2ByteArray(str: string): Uint8Array {
   }
 
   let byteArray = new Uint8Array(str.length / 2);
-  
+
   for (let i = 0; i < str.length; i += 2) {
     byteArray[i / 2] = parseInt(str.slice(i, i + 2), 16);
   }
-  
+
   return byteArray;
 }

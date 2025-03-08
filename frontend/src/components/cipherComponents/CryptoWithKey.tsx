@@ -1,5 +1,5 @@
 // Child Component: CryptoWithKey
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { copyToClip, getError } from '../Helper';
 import { TEADecrypt, TEAEncrypt, TEAGenerateKey } from '../../ciphers/block/TEAImplementation';
 import { AESDecrypt, AESEncrypt, AESGenerateKey } from '../../ciphers/block/AESImplementation';
@@ -9,6 +9,7 @@ import { A51Decrypt, A51Encrypt, A51GenerateKey } from '../../ciphers/stream/A51
 import { vigenereDecrypt, vigenereEncrypt, vigenereGenerateKey } from '../../ciphers/classic/VigenereImplementation';
 import { OTPdecrypt, OTPencrypt, OTPGenerateKey } from '../../ciphers/classic/OTPImplementation';
 import { subCipherDecrypt, subCipherEncrypt, substitutionGenerateKey } from '../../ciphers/classic/SubCipherImplementation';
+import { ToastContainer } from 'react-toastify';
 
 const cipherFunctions: {
     [key: number]: {
@@ -59,35 +60,46 @@ const cipherFunctions: {
     },
 };
 
+async function incrementCipher(mode: 'encrypt' | 'decrypt', ciphername: string) {
+    try {
+        await fetch(import.meta.env.VITE_API_BASE + `/globalstats/${mode}/${ciphername}`, {
+            method: "POST"
+        })
+    } catch (err) {
+        console.log(getError(err))
+    }
+}
 
 function CryptoWithKey({ input, onOutputSubmit, cipherId, cipherName }: { input: string | undefined; onOutputSubmit: (output: string) => void; cipherId: number; cipherName: string }) {
     const [key, setKey] = useState('');
-    useEffect(() => {
-        console.log(cipherFunctions[cipherId])
-        console.log("hi")
-        console.log(cipherId)
-    })
-
 
     const handleEncrypt = () => {
-        if (input) {
+        if (input && key) {
             try {
                 const encrypted = cipherFunctions[cipherId].encrypt(input, key);
+                incrementCipher('encrypt', cipherName)
                 onOutputSubmit(encrypted);
             } catch (error) {
                 alert(getError(error));
             }
         }
+        else {
+            alert("Key / input cannot be empty")
+        }
     };
 
     const handleDecrypt = () => {
-        if (input) {
+        if (input && key) {
             try {
                 const decrypted = cipherFunctions[cipherId].decrypt(input, key);
+                incrementCipher('decrypt', cipherName)
                 onOutputSubmit(decrypted);
             } catch (error) {
                 alert(getError(error));
             }
+        }
+        else {
+            alert("Key / input cannot be empty")
         }
     };
 
@@ -110,20 +122,24 @@ function CryptoWithKey({ input, onOutputSubmit, cipherId, cipherName }: { input:
     }
 
     return (
-        <div>
-            <div className='ciphercomp'>
-                <div>
-                    <button disabled={!localStorage.getItem('authToken')} onClick={() => saveKey(key)}>Save</button>
-                    <button id='copy' onClick={() => copyToClip(key)}></button>
-                    <input placeholder='KEY' value={key} onChange={(e) => setKey(e.target.value)}></input>
-                    <button onClick={() => setKey(cipherFunctions[cipherId].generateKey)}>Generate Key</button>
-                </div>
-                <div>
-                    <button onClick={handleEncrypt}>Encrypt</button>
-                    <button onClick={handleDecrypt}>Decrypt</button>
+        <>
+            <ToastContainer />
+            <div>
+                <div className='ciphercomp'>
+                    <div>
+                        <button disabled={!localStorage.getItem('authToken')} onClick={() => saveKey(key)}>Save</button>
+                        <button id='copy' onClick={() => copyToClip(key)}></button>
+                        <input placeholder='KEY' value={key} onChange={(e) => setKey(e.target.value)}></input>
+                        <button onClick={() => setKey(cipherFunctions[cipherId].generateKey)}>Generate Key</button>
+                    </div>
+                    <div>
+                        <button onClick={handleEncrypt}>Encrypt</button>
+                        <button onClick={handleDecrypt}>Decrypt</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
+
     );
 }
 

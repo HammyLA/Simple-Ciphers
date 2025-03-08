@@ -54,6 +54,12 @@ button {
 button:hover {
   border-color: #65e52c;
 }
+
+#signout:hover {
+  border-color: rgb(245, 79, 79);
+  color: rgb(245, 79, 79)
+}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

@@ -45,7 +45,7 @@ const CipherList: { id: number, name: string; cipher: Cipher[] }[] = [
     cipher: [
       {
         id: 4,
-        name: "A5/1",
+        name: "A5-1",
         description: "3 Registers and a key create a keystream to combine with the plaintext",
         path: "a51"
       },

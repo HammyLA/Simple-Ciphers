@@ -1,0 +1,37 @@
+.information {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-width: 1280px;
+    align-items: center;
+}
+
+.information div {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0px;
+    width: 80%;
+    height: fit-content;
+    background-color: #333;
+}
+
+.informationHead {
+    padding-left: 25px;
+}
+
+.information .offsetText {
+    position: relative;
+    left: 50px;
+}
+
+.information #headerRow th {
+    border-bottom: 0.5px solid white;
+    padding: 10px;
+    font-size: 23px;
+    text-align: start;
+}
+
+.information table {
+    margin: 10px 20px;
+    font-size: 20px;
+}

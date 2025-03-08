@@ -5,9 +5,9 @@ import CipherList from "../components/CipherList"
 
 
 function Ciphers() {
-  const classicCiphers: any[] = CipherList.find(i => i.id === 0)?.cipher || [];
-  const streamCiphers: any[] = CipherList.find(i => i.id === 1)?.cipher || [];
-  const blockCiphers: any[] = CipherList.find(i => i.id === 2)?.cipher || [];
+  const classicCiphers: any[] = CipherList.find(cipherStyle => cipherStyle.id === 0)?.cipher || [];
+  const streamCiphers: any[] = CipherList.find(cipherStyle => cipherStyle.id === 1)?.cipher || [];
+  const blockCiphers: any[] = CipherList.find(cipherStyle => cipherStyle.id === 2)?.cipher || [];
 
   return (
     <>

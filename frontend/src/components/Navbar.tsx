@@ -25,7 +25,7 @@ function Navbar() {
           console.log(err.message)
           localStorage.removeItem('authToken')
         }
-        
+
       })
       fetchNameWithToken();
     }
@@ -36,6 +36,7 @@ function Navbar() {
     <div className='topnav'>
       <NavLink to="/">Home</NavLink>
       <NavLink to="/ciphers">Ciphers</NavLink>
+      <NavLink to="/stats">Stats</NavLink>
       <NavLink to="/about">About</NavLink>
       <div className='topnavright'>
         {loggedIn ? <NavLink id="auth" to="/profile">{username}</NavLink> : <NavLink id="auth" to="/auth">Login</NavLink>}
