@@ -2,7 +2,8 @@
   color: #65e52c;
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 15px;
+  text-underline-offset: 25px;
+  font-size: 100px;
 }
 
 .center {

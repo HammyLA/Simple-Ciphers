@@ -40,7 +40,7 @@ function Stats() {
         let decrypt = 0;
         try {
             for (var i = 0; i < cipherList.length; i++) {
-                const cipher = cipherStats[i]
+                const cipher: Cipher = cipherStats[i]
                 if (cipherName === cipher.cipher) {
                     encrypt = cipher.encrypts
                     decrypt = cipher.decrypts

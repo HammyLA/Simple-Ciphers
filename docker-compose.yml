@@ -29,6 +29,7 @@ services:
       DATABASE_URL: "postgresql://hammyla:andrei8888@postgres-db:5432/simpleciphers"
       PORT: 5003
       CLIENT_URL: http://localhost:5173
+      JWT_SECRET: c87274d4832e8f5bd97ff853a4595a17
     env_file:
       - ./backend/.env
     depends_on:
