@@ -14,14 +14,15 @@ services:
       - key: NODE_ENV
         value: development
       - key: PORT
-        value: 5003
+        value: "5003"
       - key: CLIENT_URL
         value: ${CLIENT_URL}
       - key: JWT_SECRET
         sync: false
 
-  - type: psql
+  - type: database
     name: postgres-db
     plan: free
     databaseName: ${POSTGRES_DB}
     user: ${POSTGRES_USER}
+    postgresMajorVersion: 15
