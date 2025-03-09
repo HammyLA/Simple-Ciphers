@@ -1,41 +1,27 @@
 services:
-  backend:
-    container_name: simple-ciphers-backend
-    build:
-      context: ./backend
-    ports:
-      - "5003:5003"
-    volumes:
-      - ./backend:/app
-    environment:
-      NODE_ENV: development
-      DATABASE_URL: ${DATABASE_URL}
-      PORT: ${PORT}
-      CLIENT_URL: ${CLIENT_URL}
-      JWT_SECRET: ${JWT_SECRET}
-    env_file:
-      - ./.env
-    depends_on:
-      - postgres-db
+  - type: web
+    name: simple-ciphers-backend
+    env: node
+    plan: free
     buildCommand: npm install --production=false
     startCommand: npm run build
     preDeployCommand: npx prisma migrate deploy
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: postgres-db
+          property: connectionString
+      - key: NODE_ENV
+        value: development
+      - key: PORT
+        value: 5003
+      - key: CLIENT_URL
+        value: ${CLIENT_URL}
+      - key: JWT_SECRET
+        sync: false
 
-  postgres-db:
-    container_name: postgres-db
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    env_file:
-      - ./.env
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-
-volumes:
-  postgres-data:
-  node_modules:
+  - type: psql
+    name: postgres-db
+    plan: free
+    databaseName: ${POSTGRES_DB}
+    user: ${POSTGRES_USER}
