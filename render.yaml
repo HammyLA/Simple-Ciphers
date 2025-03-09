@@ -19,9 +19,3 @@ services:
         value: ${CLIENT_URL}
       - key: JWT_SECRET
         sync: false
-
-  - type: postgres
-    name: postgres-db
-    plan: free
-    databaseName: ${POSTGRES_DB}
-    user: ${POSTGRES_USER}
