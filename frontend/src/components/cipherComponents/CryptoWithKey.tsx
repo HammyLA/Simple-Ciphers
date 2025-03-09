@@ -10,6 +10,7 @@ import { vigenereDecrypt, vigenereEncrypt, vigenereGenerateKey } from '../../cip
 import { OTPdecrypt, OTPencrypt, OTPGenerateKey } from '../../ciphers/classic/OTPImplementation';
 import { subCipherDecrypt, subCipherEncrypt, substitutionGenerateKey } from '../../ciphers/classic/SubCipherImplementation';
 import { ToastContainer } from 'react-toastify';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const cipherFunctions: {
     [key: number]: {
@@ -72,6 +73,7 @@ async function incrementCipher(mode: 'encrypt' | 'decrypt', ciphername: string) 
 
 function CryptoWithKey({ input, onOutputSubmit, cipherId, cipherName }: { input: string | undefined; onOutputSubmit: (output: string) => void; cipherId: number; cipherName: string }) {
     const [key, setKey] = useState('');
+    const { isAuthenticated } = useAuth0()
 
     const handleEncrypt = () => {
         if (input && key) {
@@ -104,11 +106,11 @@ function CryptoWithKey({ input, onOutputSubmit, cipherId, cipherName }: { input:
     };
 
     const saveKey = async (key: string) => {
-        if (key && localStorage.getItem('authToken')) {
+        if (key && localStorage.getItem('JWTauthToken') && isAuthenticated) {
             try {
                 const response = await fetch(import.meta.env.VITE_API_BASE + '/keys', {
                     method: "POST",
-                    headers: { 'Authorization': localStorage.getItem('authToken') as string, 'Content-Type': 'application/json' },
+                    headers: { 'Authorization': localStorage.getItem('JWTauthToken') as string, 'Content-Type': 'application/json' },
                     body: JSON.stringify({ key: key, cipher: cipherName })
                 })
                 console.log(await response.json())
@@ -127,7 +129,7 @@ function CryptoWithKey({ input, onOutputSubmit, cipherId, cipherName }: { input:
             <div>
                 <div className='ciphercomp'>
                     <div>
-                        <button disabled={!localStorage.getItem('authToken')} onClick={() => saveKey(key)}>Save</button>
+                        <button disabled={!localStorage.getItem('JWTauthToken') && isAuthenticated} onClick={() => saveKey(key)}>Save</button>
                         <button id='copy' onClick={() => copyToClip(key)}></button>
                         <input placeholder='KEY' value={key} onChange={(e) => setKey(e.target.value)}></input>
                         <button onClick={() => setKey(cipherFunctions[cipherId].generateKey)}>Generate Key</button>

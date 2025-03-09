@@ -1,48 +1,64 @@
-import { NavLink } from 'react-router-dom'
-import '../styles/Navbar.css'
-import { useEffect, useState } from 'react'
+import { NavLink } from "react-router-dom";
+import "../styles/Navbar.css";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+import { getError } from "./Helper";
 
 /**
  * Component for navigating the site.
  * @returns Navbar component
  */
 function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [username, setUsername] = useState('')
+  const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
+
   useEffect(() => {
-    if (localStorage.getItem('authToken')) {
-      setLoggedIn(true)
-      const fetchNameWithToken = (async () => {
+    const getToken = async () => {
+      console.log(user)
+      console.log(isAuthenticated)
+      if (isAuthenticated && user) {
         try {
-          const response = await fetch(import.meta.env.VITE_API_BASE + '/users', {
-            method: "GET",
-            headers: { 'Authorization': localStorage.getItem('authToken') as string }
-          })
-          const responseUsername = await response.json()
-          setUsername(responseUsername)
+          const response = await fetch(
+            import.meta.env.VITE_API_BASE + "/auth/authtoken",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: user.sub, username: user.nickname }),
+            }
+          );
+          const data = await response.json();
+          console.log(data)
+          localStorage.setItem('JWTauthToken', data)
+        } catch (err) {
+          getError(err);
         }
-        catch (err: any) {
-          console.log(err.message)
-          localStorage.removeItem('authToken')
-        }
+      }
+    };
+    getToken()
+  }, [isAuthenticated]);
 
-      })
-      fetchNameWithToken();
-    }
-  })
-
+  if (isLoading) {
+    return <div className="topnav">Loading...</div>;
+  }
 
   return (
-    <div className='topnav'>
+    <div className="topnav">
       <NavLink to="/">Home</NavLink>
       <NavLink to="/ciphers">Ciphers</NavLink>
       <NavLink to="/stats">Stats</NavLink>
       <NavLink to="/about">About</NavLink>
-      <div className='topnavright'>
-        {loggedIn ? <NavLink id="auth" to="/profile">{username}</NavLink> : <NavLink id="auth" to="/auth">Login</NavLink>}
+      <div className="topnavright">
+        {isAuthenticated ? (
+          <NavLink to="/profile">{user?.nickname}</NavLink>
+        ) : (
+          <button id="auth" onClick={() => loginWithRedirect()}>
+            Login
+          </button>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
