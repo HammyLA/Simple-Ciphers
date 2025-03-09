@@ -4,7 +4,7 @@ services:
     env: node
     plan: free
     buildCommand: npm install --production=false
-    startCommand: npm run build
+    startCommand: npm run build && npm run start
     preDeployCommand: npx prisma migrate deploy
     envVars:
       - key: DATABASE_URL
@@ -20,9 +20,8 @@ services:
       - key: JWT_SECRET
         sync: false
 
-  - type: database
+  - type: postgres
     name: postgres-db
     plan: free
     databaseName: ${POSTGRES_DB}
     user: ${POSTGRES_USER}
-    postgresMajorVersion: 15
