@@ -10,7 +10,7 @@ import { exec } from 'child_process';
 const app = express();
 const PORT = process.env.PORT || 5003
 
-app.get('/migrate', async (req, res) => {
+app.post('/migrate', async (req, res) => {
   try {
     // Run Prisma migrate deploy to apply migrations
     exec('npx prisma migrate dev --name init', (err, stdout, stderr) => {

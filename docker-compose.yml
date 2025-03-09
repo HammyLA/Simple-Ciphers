@@ -40,7 +40,6 @@ services:
       - ./.env
     depends_on:
       - postgres-db
-    command: /bin/sh -c "npx prisma migrate dev && npm run dev"
 
   postgres-db:
     container_name: postgres-db
