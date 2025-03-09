@@ -4,12 +4,15 @@ FROM node:22-alpine
 # Set working directory in the container
 WORKDIR /app
 
-# copy package.json and isntall dependency
+# Copy package.json and install dependencies
 COPY package*.json ./
 RUN npm install
 
 # Copy the backend code
 COPY . .
+
+# Run Prisma migration before starting the server
+RUN npx prisma migrate deploy
 
 # Expose the port the backend will run on
 EXPOSE 5003
