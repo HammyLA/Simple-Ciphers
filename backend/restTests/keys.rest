@@ -1,0 +1,49 @@
+GET http://localhost:5003/keys/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQxMzA4Njc5LCJleHAiOjE3NDEzOTUwNzl9.fCtSlOJMf09lEBsl8uLUTLbtuB7DdW9R59BTmDA9GZI
+
+#### Post Key
+POST http://localhost:5003/keys/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQxMzA4Njc5LCJleHAiOjE3NDEzOTUwNzl9.fCtSlOJMf09lEBsl8uLUTLbtuB7DdW9R59BTmDA9GZI
+Content-Type: application/json
+
+{
+    "key": "HEHEHAHA",
+    "cipher": "DES"
+}
+
+#### Get keys again to see if they exist on this user
+GET http://localhost:5003/keys/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQxMzA4Njc5LCJleHAiOjE3NDEzOTUwNzl9.fCtSlOJMf09lEBsl8uLUTLbtuB7DdW9R59BTmDA9GZI
+
+#### Add another key
+POST http://localhost:5003/keys/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQxMzA4Njc5LCJleHAiOjE3NDEzOTUwNzl9.fCtSlOJMf09lEBsl8uLUTLbtuB7DdW9R59BTmDA9GZI
+Content-Type: application/json
+
+{
+    "key": "KABOOM",
+    "cipher": "AES"
+}
+
+#### Update a key
+PUT http://localhost:5003/keys/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQxMzA4Njc5LCJleHAiOjE3NDEzOTUwNzl9.fCtSlOJMf09lEBsl8uLUTLbtuB7DdW9R59BTmDA9GZI
+Content-Type: application/json
+
+{
+    "key": "NEWKEY"
+}
+
+#### Add another key
+POST http://localhost:5003/keys/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQxMzA4Njc5LCJleHAiOjE3NDEzOTUwNzl9.fCtSlOJMf09lEBsl8uLUTLbtuB7DdW9R59BTmDA9GZI
+Content-Type: application/json
+
+{
+    "key": "BOOMBA",
+    "cipher": "A51"
+}
+
+#### Delete a Key
+DELETE http://localhost:5003/keys/3
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQxMzA4Njc5LCJleHAiOjE3NDEzOTUwNzl9.fCtSlOJMf09lEBsl8uLUTLbtuB7DdW9R59BTmDA9GZI

@@ -1,0 +1,11 @@
+#### GET Stats
+GET http://localhost:5003/globalstats
+
+#### Post a cipher
+POST http://localhost:5003/globalstats/testcipher
+
+#### Post a cipher
+POST http://localhost:5003/globalstats/encrypt/testcipher2
+
+#### Post a cipher
+POST http://localhost:5003/globalstats/decrypt/testcipher3
