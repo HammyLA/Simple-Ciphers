@@ -8,12 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-RUN npm install -g prisma
-
 # Copy the backend code
 COPY . .
-
-RUN npx prisma migrate deploy
 
 # Expose the port the backend will run on
 EXPOSE 5003

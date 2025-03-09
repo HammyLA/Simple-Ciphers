@@ -26,6 +26,8 @@ services:
     container_name: simple-ciphers-backend
     build:
       context: ./backend
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     ports:
       - "5003:5003"
     volumes:
@@ -40,7 +42,6 @@ services:
       - ./.env
     depends_on:
       - postgres-db
-
   postgres-db:
     container_name: postgres-db
     image: postgres
