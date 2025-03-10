@@ -29,7 +29,9 @@ function Profile() {
   const fetchUsername = async () => {
     const response = await fetch(import.meta.env.VITE_API_BASE + "/users", {
       method: "GET",
-      headers: { Authorization: localStorage.getItem("JWTauthToken") as string },
+      headers: {
+        Authorization: localStorage.getItem("JWTauthToken") as string,
+      },
     });
     const responseUsername = await response.json();
     setUsername(responseUsername);
@@ -38,7 +40,9 @@ function Profile() {
   const fetchKeys = async () => {
     const response = await fetch(import.meta.env.VITE_API_BASE + "/keys", {
       method: "GET",
-      headers: { Authorization: localStorage.getItem("JWTauthToken") as string },
+      headers: {
+        Authorization: localStorage.getItem("JWTauthToken") as string,
+      },
     });
     const responseKeys = await response.json();
     setKeys(responseKeys);
@@ -46,7 +50,7 @@ function Profile() {
   };
 
   if (isLoading) {
-    return <div>Please Wait...</div>
+    return <div>Please Wait...</div>;
   }
 
   if (!isAuthenticated) {
@@ -68,7 +72,10 @@ function Profile() {
               height: "50px",
               margin: "10px",
             }}
-            onClick={() => logout()}
+            onClick={() => {
+              localStorage.removeItem("JWTauthToken");
+              logout();
+            }}
           >
             Sign Out
           </button>
