@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
     },
   });
   console.log(user)
+  res.json(user?.username)
 });
 
 export default router;
