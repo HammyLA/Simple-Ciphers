@@ -27,9 +27,11 @@ router.post("/authtoken", async (req, res) => {
     }
 
     console.log(user)
+    
     const token = jwt.sign({ id: user.id, timestamp: Date.now() }, process.env.JWT_SECRET, {
       expiresIn: "6h",
     });
+    console.log("Token: ", token)
     res.json(token);
   } catch (err) {
     res.status(503);

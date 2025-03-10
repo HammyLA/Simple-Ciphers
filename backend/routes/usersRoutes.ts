@@ -4,14 +4,12 @@ import prisma from "../src/prismaClient";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    const { sub, nickname } = req.body
-    const user = await prisma.user.findFirst({
-      where: {
-        id: sub,
-        username: nickname
-      },
-    });
-    res.json(user?.username);
+  const user = await prisma.user.findFirst({
+    where: {
+      id: req.userId,
+    },
+  });
+  console.log(user)
 });
 
 export default router;
