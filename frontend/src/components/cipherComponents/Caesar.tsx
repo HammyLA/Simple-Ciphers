@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { caesarDecrypt, caesarEncrypt } from '../../ciphers/classic/CaesarImplementation'
-import { getError } from '../Helper';
+import { getError, incrementCipher } from '../Helper';
 
-function Caesar({ input, onOutputSubmit }: { input: string | undefined; onOutputSubmit: (output: string) => void }) {
+function Caesar({ input, onOutputSubmit, cipherName }: { input: string | undefined; onOutputSubmit: (output: string) => void; cipherName: string }) {
   const [shift, setShift] = useState(0)
 
   const handleEncrypt = () => {
     if (input) {
       try {
         const encrypted = caesarEncrypt(input, shift)
+        incrementCipher('encrypt', cipherName)
         onOutputSubmit(encrypted)
       } catch (error) {
         alert(getError(error))
@@ -21,6 +22,7 @@ function Caesar({ input, onOutputSubmit }: { input: string | undefined; onOutput
     if (input) {
       try {
         const decrypted = caesarDecrypt(input, shift)
+        incrementCipher('decrypt', cipherName)
         onOutputSubmit(decrypted)
       } catch (error) {
         alert(getError(error))

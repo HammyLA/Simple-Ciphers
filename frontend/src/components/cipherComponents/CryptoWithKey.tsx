@@ -145,4 +145,4 @@ function CryptoWithKey({ input, onOutputSubmit, cipherId, cipherName }: { input:
     );
 }
 
-export default CryptoWithKey;
+export default CryptoWithKey

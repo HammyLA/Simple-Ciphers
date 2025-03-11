@@ -1,7 +1,7 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import Ciphers from "./pages/CipherList";
+import Ciphers from "./pages/Ciphers";
 import About from "./pages/About";
 import Crypto from "./pages/Cryptosystem";
 import { Routes, Route } from "react-router-dom";

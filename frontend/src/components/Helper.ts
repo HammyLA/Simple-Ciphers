@@ -121,3 +121,18 @@ export function hex2ByteArray(str: string): Uint8Array {
 
   return byteArray;
 }
+
+/**
+ * increments the cipher usage of encrypt or decrypt in the database
+ * @param mode encrypt or decrypt
+ * @param ciphername the ciphername as included in the cipherList.ts
+ */
+export async function incrementCipher(mode: 'encrypt' | 'decrypt', ciphername: string) {
+    try {
+        await fetch(import.meta.env.VITE_API_BASE + `/globalstats/${mode}/${ciphername}`, {
+            method: "POST"
+        })
+    } catch (err) {
+        console.log(getError(err))
+    }
+}

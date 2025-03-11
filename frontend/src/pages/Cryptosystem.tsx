@@ -22,7 +22,7 @@ function Crypto() {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <h1>{cipher.name}</h1>
       <TextBox type="input" text={input} setText={setInput} />
-      {cipher.id === 0 ? <Caesar input={input} onOutputSubmit={setOutput} /> : <CryptoWithKey
+      {cipher.id === 0 ? <Caesar input={input} onOutputSubmit={setOutput} cipherName={cipher.name}/> : <CryptoWithKey
         input={input}
         onOutputSubmit={setOutput}
         cipherId={cipher.id}
