@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getError } from "./Helper";
 
 /**
@@ -10,11 +10,10 @@ import { getError } from "./Helper";
  */
 function Navbar() {
   const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const getToken = async () => {
-      console.log(user)
-      console.log(isAuthenticated)
       if (isAuthenticated && user) {
         try {
           const response = await fetch(
@@ -28,15 +27,29 @@ function Navbar() {
             }
           );
           const data = await response.json();
-          console.log(data)
           localStorage.setItem('JWTauthToken', data)
+        } catch (err) {
+          getError(err);
+        }
+        try {
+          const response = await fetch(
+            import.meta.env.VITE_API_BASE + "/users",
+            {
+              method: "GET",
+              headers: {
+                Authorization: localStorage.getItem("JWTauthToken") as string,
+              },
+            }
+          );
+          const responseUsername = await response.json();
+          setUsername(responseUsername);
         } catch (err) {
           getError(err);
         }
       }
     };
     getToken()
-  }, [isAuthenticated]);
+  }, [isAuthenticated, username]);
 
   if (isLoading) {
     return <div className="topnav">Loading...</div>;
@@ -50,7 +63,7 @@ function Navbar() {
       <NavLink to="/about">About</NavLink>
       <div className="topnavright">
         {isAuthenticated ? (
-          <NavLink to="/profile">{user?.nickname}</NavLink>
+          <NavLink to="/profile">{username}</NavLink>
         ) : (
           <button id="auth" onClick={() => loginWithRedirect()}>
             Login

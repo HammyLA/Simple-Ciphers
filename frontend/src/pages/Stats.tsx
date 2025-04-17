@@ -14,6 +14,7 @@ interface Cipher {
 function Stats() {
     const cipherList = [];
     const [cipherStats, setCipherStats] = useState([])
+    const [awake, setAwake] = useState();
     for (var i = 0; i < CipherList.length; i++) {
         for (var j = 0; j < CipherList[i].cipher.length; j++) {
             cipherList.push(CipherList[i].cipher[j])
@@ -22,18 +23,35 @@ function Stats() {
 
     useEffect(() => {
         try {
-            const fetchStats = async () => {
-                const response = await fetch(import.meta.env.VITE_API_BASE + '/globalstats', {
+            const checkAwake = async () => {
+                const response = await fetch(import.meta.env.VITE_API_BASE + '/', {
                     method: "GET"
                 })
-                const cipherData = await response.json()
-                setCipherStats(cipherData)
+                const awakeData = await response.json()
+                setAwake(awakeData.message)
+                console.log(awakeData.message)
             }
-            fetchStats()
-        } catch (err) {
+            checkAwake()
+        }
+        catch (err) {
             getError(err)
         }
-    }, [cipherList])
+
+        if (!awake) {
+            try {
+                const fetchStats = async () => {
+                    const response = await fetch(import.meta.env.VITE_API_BASE + '/globalstats', {
+                        method: "GET"
+                    })
+                    const cipherData = await response.json()
+                    setCipherStats(cipherData)
+                }
+                fetchStats()
+            } catch (err) {
+                getError(err)
+            }
+        }
+    }, [])
 
     function getCipherStats(cipherName: string, cipherStats: any) {
         let encrypt = 0;
@@ -56,7 +74,15 @@ function Stats() {
                 <td>{decrypt}</td>
             </>
         )
+    }
 
+    if (!awake) {
+        return (
+            <div className="connecting">
+                <h1> Please Wait... </h1>
+                <h3> Connecting to the Server... </h3>
+            </div>
+        )
     }
 
     return (

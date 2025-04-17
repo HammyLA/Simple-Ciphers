@@ -5,6 +5,7 @@ import authMiddleware from '../middleware/authMiddleware';
 import usersRoutes from '../routes/usersRoutes';
 import keysRoutes from '../routes/keysRoutes';
 import globalStatisticsRoutes from '../routes/globalStatisticsRoutes';
+import { json } from 'body-parser';
 
 const app = express();
 const PORT = process.env.PORT || 5003
@@ -15,6 +16,8 @@ app.use(cors())
 
 app.get('/', (request, response) => {
     console.log("The frontend has successfully contacted the backend")
+    JSON.stringify({ message: "The frontend has successfully contacted the backend" })
+    response.status(200).send({ message: "Awake" })
 })
 
 

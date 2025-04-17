@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import "../styles/Information.css";
-import { copyToClip } from "../components/Helper";
+import { copyToClip, getError } from "../components/Helper";
 import { ToastContainer } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -16,15 +16,29 @@ function Profile() {
   const [username, setUsername] = useState("");
   const [keys, setKeys] = useState([]);
   const [keysSize, setKeysSize] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [awake, setAwake] = useState();
 
   const { isAuthenticated, isLoading, logout } = useAuth0();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    const checkAwake = async () => {
+      try {
+        const response = await fetch(import.meta.env.VITE_API_BASE + "/", {
+          method: "GET",
+        });
+        const awakeData = await response.json();
+        setAwake(awakeData.message);
+      } catch (err) {
+        getError(err);
+      }
+    };
+    checkAwake();
+    if (isAuthenticated && awake) {
       fetchUsername();
       fetchKeys();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, awake]);
 
   const fetchUsername = async () => {
     const response = await fetch(import.meta.env.VITE_API_BASE + "/users", {
@@ -49,12 +63,38 @@ function Profile() {
     setKeysSize(responseKeys.length);
   };
 
-  if (isLoading) {
-    return <div>Please Wait...</div>;
+  const handleChangeUsername = async () => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_API_BASE + "/users", {
+        method: "PUT",
+        headers: {
+          Authorization: localStorage.getItem("JWTauthToken") as string,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username }),
+      })
+      const responseUsername = await response.json();
+      console.log(responseUsername)
+      setUsername(responseUsername.username);
+    }
+    catch (err) {
+      getError(err);
+    }
+    setIsEditing(false);
+    window.location.reload();
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="*"></Navigate>;
+    return <Navigate to="/"></Navigate>;
+  }
+  if (isLoading || (!awake && !username)) {
+    return (
+      <div className="connecting">
+        <h1> Please Wait... </h1>
+        <h3> Connecting to the Server... </h3>
+      </div>
+    );
   }
 
   return (
@@ -79,7 +119,31 @@ function Profile() {
           >
             Sign Out
           </button>
-          <h1 className="offsetText">{username}</h1>
+          <div className="username">
+            {isEditing ? (
+              <form>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="username"
+                />
+                <button onClick={handleChangeUsername}>Confirm</button>
+                <button className="cancel" onClick={() => {
+                  setIsEditing(false)
+                  fetchUsername()
+                }}>Cancel</button>
+              </form>)
+              :
+              (
+                <>
+                  <h1 id="user" className="offsetText">{username}</h1>
+                  <button className="rename" onClick={() => setIsEditing(true)} />
+                </>
+              )
+            }
+          </div>
+
         </div>
         <p>{`${keysSize} keys found...`}</p>
         <div>

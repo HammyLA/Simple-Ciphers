@@ -9,8 +9,21 @@ router.get("/", async (req, res) => {
       id: req.userId,
     },
   });
-  console.log(user)
-  res.json(user?.username)
+  console.log(user);
+  res.json(user?.username);
+});
+
+router.put("/", async (req, res) => {
+  const { username } = req.body;
+  const user = await prisma.user.update({
+    where: {
+      id: req.userId,
+    },
+    data: {
+      username: username,
+    },
+  });
+  res.json(user);
 });
 
 export default router;
