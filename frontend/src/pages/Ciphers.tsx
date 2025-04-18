@@ -5,6 +5,7 @@ import CipherList from "../components/CipherList"
 
 
 function Ciphers() {
+  // There's separate cipher styles so we can group them together. It makes accessing each cipher a little clunky.
   const classicCiphers: any[] = CipherList.find(cipherStyle => cipherStyle.id === 0)?.cipher || [];
   const streamCiphers: any[] = CipherList.find(cipherStyle => cipherStyle.id === 1)?.cipher || [];
   const blockCiphers: any[] = CipherList.find(cipherStyle => cipherStyle.id === 2)?.cipher || [];
@@ -25,9 +26,12 @@ function Ciphers() {
           <HashLink style={{ fontSize: "24px" }} to="#block">Block Ciphers</HashLink>
         </div>
       </div>
+
+      {/* Classical Cipher Section */}
       <h2 id="classic" style={{ textAlign: "center", padding: "30px" }}>
         Classical Ciphers
       </h2>
+
       <div className="ciphersection">
         {classicCiphers.map((cipher) => {
           return (
@@ -40,9 +44,12 @@ function Ciphers() {
           );
         })}
       </div>
+
+      {/* Stream Cipher Section */}
       <h2 id="stream" style={{ textAlign: "center", padding: "30px" }}>
         Stream Ciphers
       </h2>
+
       <div className="ciphersection">
         {streamCiphers.map((cipher) => {
           return (
@@ -55,9 +62,12 @@ function Ciphers() {
           );
         })}
       </div>
+
+      {/* Block Cipher Section */}
       <h2 id="block" style={{ textAlign: "center", padding: "30px" }}>
         Block Ciphers
       </h2>
+
       <div className="ciphersection">
         {blockCiphers.map((cipher) => {
           return (

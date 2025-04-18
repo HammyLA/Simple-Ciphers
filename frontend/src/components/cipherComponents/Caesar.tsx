@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { caesarDecrypt, caesarEncrypt } from '../../ciphers/classic/CaesarImplementation'
 import { getError, incrementCipher } from '../Helper';
 
+// This is a lot of parameters, but the cryptosystem file provides input and cipher and the ciphersystem file submits the resulting output from the  crypto logic
+// to the cryptosystem file to show.
 function Caesar({ input, onOutputSubmit, cipherName }: { input: string | undefined; onOutputSubmit: (output: string) => void; cipherName: string }) {
   const [shift, setShift] = useState(0)
 

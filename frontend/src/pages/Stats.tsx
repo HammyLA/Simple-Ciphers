@@ -15,6 +15,9 @@ function Stats() {
     const cipherList = [];
     const [cipherStats, setCipherStats] = useState([])
     const [awake, setAwake] = useState();
+
+    // Adds the cipher names from the CipherList file to the cipherList array so that we can use it in the thing. Actually, it might be easier to just use
+    // the cipherList file directly. I'll fix this later.
     for (var i = 0; i < CipherList.length; i++) {
         for (var j = 0; j < CipherList[i].cipher.length; j++) {
             cipherList.push(CipherList[i].cipher[j])
@@ -22,6 +25,7 @@ function Stats() {
     }
 
     useEffect(() => {
+        // Need to check if the server is awake before fetching data. If it's not running it won't get the data.
         try {
             const checkAwake = async () => {
                 const response = await fetch(import.meta.env.VITE_API_BASE + '/', {
@@ -53,10 +57,12 @@ function Stats() {
         }
     }, [])
 
+    // Reads cipher name and matches it to corresponding cipher stats in the cipherstats list to generate html for each cipher.
     function getCipherStats(cipherName: string, cipherStats: any) {
         let encrypt = 0;
         let decrypt = 0;
         try {
+            // Look through the list for the right cipher because the list isn't ordered when it comes from the server.
             for (var i = 0; i < cipherList.length; i++) {
                 const cipher: Cipher = cipherStats[i]
                 if (cipherName === cipher.cipher) {
@@ -76,6 +82,7 @@ function Stats() {
         )
     }
 
+    // If the server isn't awake we can't get the data from the server.
     if (!awake) {
         return (
             <div className="connecting">

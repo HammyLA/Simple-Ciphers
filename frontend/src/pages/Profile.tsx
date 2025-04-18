@@ -22,6 +22,7 @@ function Profile() {
   const { isAuthenticated, isLoading, logout } = useAuth0();
 
   useEffect(() => {
+    // Checking to see if the server is awake/running before fetching data. If it's not running it won't get the data.
     const checkAwake = async () => {
       try {
         const response = await fetch(import.meta.env.VITE_API_BASE + "/", {
@@ -40,6 +41,7 @@ function Profile() {
     }
   }, [isAuthenticated, awake]);
 
+  // Fetching the username from the server to display in the profile page.
   const fetchUsername = async () => {
     const response = await fetch(import.meta.env.VITE_API_BASE + "/users", {
       method: "GET",
@@ -51,6 +53,7 @@ function Profile() {
     setUsername(responseUsername);
   };
 
+  // Fetching the list of keys from the server based on the user to display the user's keys.
   const fetchKeys = async () => {
     const response = await fetch(import.meta.env.VITE_API_BASE + "/keys", {
       method: "GET",
@@ -63,7 +66,14 @@ function Profile() {
     setKeysSize(responseKeys.length);
   };
 
+  // Updates the username in the backend for when you change the username.
   const handleChangeUsername = async () => {
+    // Usernames of less than 6 characters are not allowed.
+    if (username.length < 6) {
+      alert("Please enter a username at least 6 characters long");
+      return;
+    }
+
     try {
       const response = await fetch(
         import.meta.env.VITE_API_BASE + "/users", {
@@ -77,17 +87,23 @@ function Profile() {
       const responseUsername = await response.json();
       console.log(responseUsername)
       setUsername(responseUsername.username);
+
+      setIsEditing(false);
+
+      // Reload the page to show the updated username in the navbar, because the navbar doesn't update otherwise.
+      window.location.reload();
     }
     catch (err) {
       getError(err);
     }
-    setIsEditing(false);
-    window.location.reload();
   }
 
+  // It will navigate to the home page anyways because on reload it doesn't know its authenticated on first render :I 
   if (!isAuthenticated) {
     return <Navigate to="/"></Navigate>;
   }
+
+  // Shows the user that they need to wait for the server to fetch information. They can do other stuff in the meantime probably.
   if (isLoading || (!awake && !username)) {
     return (
       <div className="connecting">
@@ -97,6 +113,7 @@ function Profile() {
     );
   }
 
+  // Everything is all good, now show the profile page for the user.
   return (
     <>
       <ToastContainer />
@@ -119,6 +136,8 @@ function Profile() {
           >
             Sign Out
           </button>
+
+          {/* Username container */}
           <div className="username">
             {isEditing ? (
               <form>
@@ -143,11 +162,14 @@ function Profile() {
               )
             }
           </div>
-
         </div>
+
         <p>{`${keysSize} keys found...`}</p>
+
         <div>
           <table>
+
+            {/* Table Headers */}
             <thead id="headerRow">
               <tr>
                 <th>Cipher</th>
@@ -155,6 +177,8 @@ function Profile() {
                 <th>Creation Date</th>
               </tr>
             </thead>
+
+            {/* This is the key body, using map makes a bunch of key rows from the key list */}
             <tbody>
               {keys.map((key: Key) => {
                 return (
