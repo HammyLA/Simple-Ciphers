@@ -36,7 +36,7 @@ function Ciphers() {
         {classicCiphers.map((cipher) => {
           return (
             <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
-              <div>
+              <div className="grow">
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
               </div>
@@ -54,7 +54,7 @@ function Ciphers() {
         {streamCiphers.map((cipher) => {
           return (
             <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
-              <div>
+              <div className="grow">
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
               </div>
@@ -72,7 +72,7 @@ function Ciphers() {
         {blockCiphers.map((cipher) => {
           return (
             <Link to={`/cryptosystem/${cipher.path}`} state={{ cipher }} key={cipher.id}>
-              <div>
+              <div className="grow">
                 <h3>{cipher.name}</h3>
                 <p>{cipher.description}</p>
               </div>

@@ -96,10 +96,10 @@ function Stats() {
         <>
             <p className='informationHead'>{"> Statistics"}</p>
             <div className="information">
-                <div>
+                <div className='shadow'>
                     <h1 className='offsetText'>Global Statistics</h1>
                 </div>
-                <div>
+                <div className='shadow'>
                     <table>
                         <thead id='headerRow'>
                             <tr>

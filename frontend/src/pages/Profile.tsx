@@ -104,7 +104,7 @@ function Profile() {
   }
 
   // Shows the user that they need to wait for the server to fetch information. They can do other stuff in the meantime probably.
-  if (isLoading || (!awake && !username)) {
+  if (isLoading || (!awake || !username)) {
     return (
       <div className="connecting">
         <h1> Please Wait... </h1>
@@ -119,7 +119,7 @@ function Profile() {
       <ToastContainer />
       <h3 className="informationHead"> {"> Profile"}</h3>
       <div className="information">
-        <div>
+        <div className="shadow">
           <button
             id="signout"
             style={{
@@ -166,7 +166,7 @@ function Profile() {
 
         <p>{`${keysSize} keys found...`}</p>
 
-        <div>
+        <div className="shadow">
           <table>
 
             {/* Table Headers */}
